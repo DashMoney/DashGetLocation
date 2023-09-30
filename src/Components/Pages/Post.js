@@ -48,13 +48,11 @@ class Post extends React.Component {
     //So I want Time of message
     //There4 TOM = 2546075019551 - timeStamp -> okay
 
-    let timeOfMessage = 2546075019551 - messageTime;
-
-    let timeDifference = timeNow - timeOfMessage;
+    let timeDifference = timeNow - messageTime;
   
     if(timeDifference >= 84600000){
       let longFormDate = new Date();
-       longFormDate.setTime(timeOfMessage);
+       longFormDate.setTime(messageTime);
       return longFormDate.toLocaleDateString();
     }
     
@@ -189,7 +187,7 @@ class Post extends React.Component {
 
            
             <span className="textsmaller">
-              {this.getRelativeTimeAgo(this.props.post.timeStamp, this.props.date)}
+              {this.getRelativeTimeAgo(this.props.post.$createdAt, this.props.date)}
             </span>
 
           </Card.Title>

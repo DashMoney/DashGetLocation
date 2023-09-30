@@ -65,23 +65,14 @@ class PostModal extends React.Component {
 
 getRelativeTimeAgo(messageTime, timeNow){
 
-  //timeStamp: 2546075019551 - Date.now(), 
 
-  //How do I make the adjustments....
-  //So the messageTime is the time Stamp
-  // So messageTime = 2546075019551 - Time of message
-  //So I want Time of message
-  //There4 TOM = 2546075019551 - timeStamp -> okay
-
-  let timeOfMessage = 2546075019551 - messageTime;
-
-  let timeDifference = timeNow - timeOfMessage;
-
-  if(timeDifference >= 84600000){
-    let longFormDate = new Date();
-     longFormDate.setTime(timeOfMessage);
-    return longFormDate.toLocaleDateString();
-  }
+  let timeDifference = timeNow - messageTime;
+  
+    if(timeDifference >= 84600000){
+      let longFormDate = new Date();
+       longFormDate.setTime(messageTime);
+      return longFormDate.toLocaleDateString();
+    }
   
   /*
   Calculate milliseconds in a year
@@ -279,7 +270,7 @@ style={{ marginRight: ".2rem" }}>
            
 
             <span className="textsmaller">
-              {this.getRelativeTimeAgo(this.props.selectedSearchedPost.timeStamp, date)}
+              {this.getRelativeTimeAgo(this.props.selectedSearchedPost.$createdAt, date)}
             </span>
           </div>
 

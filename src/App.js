@@ -13,7 +13,7 @@ import Spinner from "react-bootstrap/Spinner";
 import TopNav from "./Components/TopNav/TopNav";
 
 import TabsOnPage from "./Components/Pages/TabsOnPage";
-import CreditsOnPage from "./Components/Pages/CreditsOnPage";
+//import CreditsOnPage from "./Components/Pages/CreditsOnPage";
 
 import LocationForm from "./Components/Pages/LocationForm";
 import ButtonsOnPage from "./Components/Pages/ButtonsOnPage";
@@ -353,113 +353,130 @@ class App extends React.Component {
       {
         isLoggedIn: false,
 
-      whichTab: "Search",
-      selectedCategoryButton: "offrent",
-
-      //viewYourMsgsToPosts: false, //false to show form and true for msgs
-
-      isLoading: true, //For identity and name And not identityInfo that is handle on component
-
-      isLoadingRefresh: false, //For Platform data reloading (unused currently)
-      //There isn't a refresh.. there isn't a load right? could have an auto check also for when logged in.
-
-      isLoadingSearch: false, // CHANGE BACK THIS IS FOR UI FAKE DATA TESTING ->
-
-      isLoadingForm: false,
-      isLoadingButton: false, // Could I combine the Form and buttons ? ->
-
-      isLoadingWallet: true, //For wallet for topup
-
-      isLoadingYourPosts: false, // CHANGE BACK THIS IS FOR UI FAKE DATA TESTING ->
-
-      mode: "dark",
-
-      //##### LOCATION FORM STATE ######
-      whichCountryRegion: "Country",
-
-      cityInput: "",
-      validCity: false,
-      tooLongCityNameError: false,
-
-      countryRegionInput: "",
-      validCountryRegion: false,
-      tooLongCountryRegionNameError: false,
-      //^^^^^ LOCATION FORM STATE ^^^^^
-
-      //#####  POSTS TO DISPLAY ######
-      OffRentPosts: [],
-      OffRentNames: [],
-
-      OffBizPosts: [],
-      OffBizNames: [],
-
-      OffOtherPosts: [],
-      OffOtherNames: [],
-
-      LookRentPosts: [],
-      LookRentNames: [],
-
-      LookOtherPosts: [],
-      LookOtherNames: [],
-      //^^^^^ POSTS TO DISPLAY ^^^^^
-
-      //##### INITIAL POSTS ######
-      InitialOffRentPosts: [],
-      InitialOffRentNames: [],
-
-      InitialOffBizPosts: [],
-      InitialOffBizNames: [],
-
-      InitialOffOtherPosts: [],
-      InitialOffOtherNames: [],
-
-      InitialLookRentPosts: [],
-      InitialLookRentNames: [],
-
-      InitialLookOtherPosts: [],
-      InitialLookOtherNames: [],
-      //^^^^^ INITIAL POSTS ^^^^^
-
-      //##### Search POSTS ######
-      SearchOffRentPosts: [],
-      SearchOffRentNames: [],
-
-      SearchOffBizPosts: [],
-      SearchOffBizNames: [],
-
-      SearchOffOtherPosts: [],
-      SearchOffOtherNames: [],
-
-      SearchLookRentPosts: [],
-      SearchLookRentNames: [],
-
-      SearchLookOtherPosts: [],
-      SearchLookOtherNames: [],
-      //^^^^^ Search POSTS ^^^^^
-
-      yourPostsToDisplay: [],
-
-      presentModal: "",
-      isModalShowing: false,
-      whichNetwork: "testnet",
-
-      mnemonic: "",
-      identity: "",
-      identityInfo: "",
-      identityRaw: "",
-      uniqueName: "",
-
-      accountBalance: "",
-
-      walletId: "",
-      mostRecentLogin: false,
-      platformLogin: false, //Will this be used? -> check ->
-      LocalForageKeys: [],
-
-      skipSynchronizationBeforeHeight: 910000,
-      mostRecentBlockHeight: 910000,
-
-      expandedTopNav: false,
+        whichTab: "Search",
+        selectedCategoryButton: "offrent",
+  
+        //viewYourMsgsToPosts: false, //false to show form and true for msgs
+  
+        isLoading: true, //For identity and name And not identityInfo that is handle on component
+  
+        isLoadingRefresh: false, //For Platform data reloading (unused currently)
+        //There isn't a refresh.. there isn't a load right? could have an auto check also for when logged in.
+        isLoadingInitial: true,
+  
+        isLoadingSearch: false, // CHANGE BACK THIS IS FOR UI FAKE DATA TESTING ->
+  
+        isLoadingForm: false,
+        isLoadingButton: false, // Could I combine the Form and buttons ? ->
+  
+        isLoadingWallet: true, //For wallet for topup
+  
+        isLoadingYourPosts: true, // CHANGE BACK THIS IS FOR UI FAKE DATA TESTING ->
+  
+        mode: "dark",
+  
+        denom: "Dash", //this can be removed because it is handled on at componenet based on amoutn <- do it ->
+  
+        //##### LOCATION FORM STATE ######
+        whichCountryRegion: "Country",
+  
+        cityInput: "",
+        validCity: true,
+        tooLongCityNameError: false,
+  
+        countryRegionInput: "",
+        validCountryRegion: true,
+        tooLongCountryRegionNameError: false,
+        //^^^^^ LOCATION FORM STATE ^^^^^
+  
+        //#####  POSTS TO DISPLAY ######
+        OffRentPosts: [],
+        OffRentNames: [],
+  
+        OffBizPosts: [],
+        OffBizNames: [],
+  
+        OffOtherPosts: [],
+        OffOtherNames: [],
+  
+        LookRentPosts: [],
+        LookRentNames: [],
+  
+        LookOtherPosts: [],
+        LookOtherNames: [],
+        //^^^^^ POSTS TO DISPLAY ^^^^^
+  
+        //##### INITIAL POSTS ######
+  
+        Initial1: false,
+        Initial2: false,
+        Initial3: false,
+        Initial4: false,
+        Initial5: false,
+  
+        InitialOffRentPosts: [],
+        InitialOffRentNames: [],
+  
+        InitialOffBizPosts: [],
+        InitialOffBizNames: [],
+  
+        InitialOffOtherPosts: [],
+        InitialOffOtherNames: [],
+  
+        InitialLookRentPosts: [],
+        InitialLookRentNames: [],
+  
+        InitialLookOtherPosts: [],
+        InitialLookOtherNames: [],
+        //^^^^^ INITIAL POSTS ^^^^^
+  
+        //##### Search POSTS ######
+  
+        Search1: false,
+        Search2: false,
+        Search3: false,
+        Search4: false,
+        Search5: false,
+        
+        SearchOffRentPosts: [],
+        SearchOffRentNames: [],
+  
+        SearchOffBizPosts: [],
+        SearchOffBizNames: [],
+  
+        SearchOffOtherPosts: [],
+        SearchOffOtherNames: [],
+  
+        SearchLookRentPosts: [],
+        SearchLookRentNames: [],
+  
+        SearchLookOtherPosts: [],
+        SearchLookOtherNames: [],
+        //^^^^^ Search POSTS ^^^^^
+  
+        yourPostsToDisplay: [],
+  
+        presentModal: "",
+        isModalShowing: false,
+        whichNetwork: "testnet",
+  
+        mnemonic: "",
+        identity: "",
+        identityInfo: "",
+        identityRaw: "",
+        uniqueName: "",
+  
+        accountBalance: "",
+  
+        walletId: "",
+        mostRecentLogin: false,
+        platformLogin: false, //Will this be used? -> check ->
+        LocalForageKeys: [],
+  
+        skipSynchronizationBeforeHeight: 910000,
+        mostRecentBlockHeight: 910000,
+  
+        expandedTopNav: false,
       },
       () => this.componentDidMount()
     );
