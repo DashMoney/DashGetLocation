@@ -135,9 +135,9 @@ class LocationForm extends React.Component {
                   <Form.Control.Feedback type="invalid">
               State/Province name is too long.
             </Form.Control.Feedback>
-                  <Form.Control.Feedback type="valid">
+                  {/* <Form.Control.Feedback type="valid">
               State/Province name is acceptable!
-            </Form.Control.Feedback>
+            </Form.Control.Feedback> */}
             </>
 
  }

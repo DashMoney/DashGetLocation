@@ -2700,6 +2700,7 @@ class App extends React.Component {
                     tooLongCountryRegionNameError={
                       this.state.tooLongCountryRegionNameError
                     }
+                    isLoadingForm={this.state.isLoadingForm}
                     triggerCountryButton={this.triggerCountryButton}
                     triggerRegionButton={this.triggerRegionButton}
                     handleOnChangeValidation={this.handleOnChangeValidation}
@@ -2732,6 +2733,7 @@ class App extends React.Component {
                     <span className="visually-hidden">Loading...</span>
                   </Spinner>
                 </div>
+                <p></p>
               </>
             ) : (
               <></>
@@ -2799,6 +2801,7 @@ class App extends React.Component {
               tooLongCountryRegionNameError={
                 this.state.tooLongCountryRegionNameError
               }
+              isLoadingForm={this.state.isLoadingForm}
               triggerCountryButton={this.triggerCountryButton}
               triggerRegionButton={this.triggerRegionButton}
               handleOnChangeValidation={this.handleOnChangeValidation}
@@ -2826,6 +2829,7 @@ class App extends React.Component {
                     <span className="visually-hidden">Loading...</span>
                   </Spinner>
                 </div>
+                <p></p>
               </>
             ) : (
               <></>
