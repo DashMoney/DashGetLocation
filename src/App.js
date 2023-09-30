@@ -478,7 +478,7 @@ class App extends React.Component {
       LocalForage.getItem("mostRecentWalletId")
         .then((val) => {
           if (val !== null) {
-            this.handleInitialQuerySeq(val.identity);
+            //this.handleInitialQuerySeq(val.identity);
             this.setState({
               walletId: val.walletId,
               identity: val.identity,
@@ -563,7 +563,6 @@ class App extends React.Component {
         {
           isLoggedIn: true,
           isLoading: true,
-          isLoadingWallet: true,
           mnemonic: theMnemonic,
         },
         () => this.getIdentitywithMnem(theMnemonic)
@@ -573,7 +572,6 @@ class App extends React.Component {
         {
           isLoggedIn: true,
           isLoading: true,
-          isLoadingWallet: true,
           mnemonic: theMnemonic,
         },
         () => this.checkPlatformOnlyLogin(theMnemonic)
@@ -703,7 +701,7 @@ class App extends React.Component {
 
   handleMostRecentLogin = (theMnemonic) => {
     //check if loading is done and push to display state
-
+    this.getYourPosts(this.state.identity);
     this.getIdentityInfo(this.state.identity);
     this.getWalletwithMnem(theMnemonic);
   };
@@ -776,6 +774,7 @@ class App extends React.Component {
 
   callEverythingBcHaveIdentityNow = (theIdentity, theMnemonic) => {
     if (!this.state.platformLogin) {
+      this.getYourPosts(theIdentity);
       this.getNamefromIdentity(theIdentity);
       this.getIdentityInfo(theIdentity);
     }
