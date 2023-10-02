@@ -483,6 +483,10 @@ class App extends React.Component {
   };
 
     componentDidMount() {
+
+      this.getInitialPosts() // <- Call initial Post first to speed up the initial login
+
+
   //All componentDidMount will do is call the initial queries -> okay then how will the login work ? So it really just needs platform and not wallet.
 
   //THOUGHT <- wHAT IF i DO ONE PULL FOR THE INITIAL AND THEN SORT SO INSTEAD OF UP TO 10 ITS JUST 2 AND THEN i CAN DO A MOST RECENT BECAUSE PEOPLE WILL BE LOGGING IN FAIRLY QUICKLY..
@@ -546,8 +550,6 @@ class App extends React.Component {
         .catch(function (err) {
           console.log(err);
         });
-
-      this.getInitialPosts() 
 
     }
 
