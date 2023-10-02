@@ -2730,6 +2730,7 @@ class App extends React.Component {
                       this.handleSelectedCategoryButton
                     }
                     isLoadingSearch={this.state.isLoadingSearch}
+                    isLoadingInitial={this.state.isLoadingInitial}
                     OffRentPosts={this.state.OffRentPosts}
                     OffBizPosts={this.state.OffBizPosts}
                     OffOtherPosts={this.state.OffOtherPosts}
@@ -2741,7 +2742,7 @@ class App extends React.Component {
                     className="BottomBorder"
                     style={{ paddingTop: ".5rem" }}
                   ></div>
-                  <p></p>
+                  
                   {this.state.isLoadingInitial || this.state.isLoadingSearch  ? (
               <>
                 <p></p>
@@ -2829,6 +2830,7 @@ class App extends React.Component {
               selectedCategoryButton={this.state.selectedCategoryButton}
               handleSelectedCategoryButton={this.handleSelectedCategoryButton}
               isLoadingSearch={this.state.isLoadingSearch}
+              isLoadingInitial={this.state.isLoadingInitial}
               OffRentPosts={this.state.OffRentPosts}
               OffBizPosts={this.state.OffBizPosts}
               OffOtherPosts={this.state.OffOtherPosts}
@@ -2837,7 +2839,7 @@ class App extends React.Component {
             />
 
             <div className="BottomBorder" style={{ paddingTop: ".5rem" }}></div>
-            <p></p>
+            
             {this.state.isLoadingInitial || this.state.isLoadingSearch  ? (
               <>
                 <p></p>

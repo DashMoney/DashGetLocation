@@ -40,6 +40,7 @@ body, html {
 
  .BottomBorder{
   border-bottom: 0.1rem solid white;
+  margin-bottom: .5rem;
  }
 
 
@@ -127,3 +128,8 @@ p{
   justify-content: flex-end;
   
  }
+
+ #card{
+  margin: .2rem;
+
+}

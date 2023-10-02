@@ -155,7 +155,7 @@ class Post extends React.Component {
     return (
       <>
        <Card id="card" key={this.props.index} bg={cardBkg} text={cardText}>
-        <Card.Body>
+        <Card.Body onClick={()=>this.props.handleSearchedPost(this.props.post, nameToPass)}>
 
           <div className="locationTitle" style={{ marginBottom: ".5rem"  }}>
 
@@ -176,14 +176,16 @@ class Post extends React.Component {
           <Card.Title className="cardTitle">
           {/* {this.handleName(this.props.post)} */}
 
-          <span style={{ color: "#008de3" }} onClick={() => this.handleNameClick(nameToPass)}>
+          <span style={{ color: "#008de3" }}
+          // onClick={() => this.handleNameClick(nameToPass)}
+          >
         {nameToPass}
         </span>
 
 
-  <span>
+  {/* <span>
     {this.state.copiedName?<span>✅</span>:<></>}
-    </span>
+    </span> */}
 
            
             <span className="textsmaller">
@@ -193,7 +195,7 @@ class Post extends React.Component {
           </Card.Title>
 
           <Card.Text
-          onClick={()=>this.props.handleSearchedPost(this.props.post, nameToPass)}
+          // onClick={()=>this.props.handleSearchedPost(this.props.post, nameToPass)}
           
           >
             {this.props.post.description}

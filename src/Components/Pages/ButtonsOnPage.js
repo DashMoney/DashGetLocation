@@ -26,7 +26,7 @@ let lookOtherNum = this.props.LookOtherPosts.length;
               <Button variant="primary" 
               style={{ textDecoration: "underline", marginRight: ".5rem" ,  }}>
                 <b>Place to Rent</b>{' '}
-                {!this.props.isLoadingSearch ? 
+                {!this.props.isLoadingSearch && !this.props.isLoadingInitial ? 
                 <b>({offRentNum})</b>:<></>}
               </Button>
             ) : (
@@ -36,7 +36,7 @@ let lookOtherNum = this.props.LookOtherPosts.length;
                 onClick={()=> this.props.handleSelectedCategoryButton("offrent")}
               >
                 <b>Place to Rent</b>{' '}
-                {!this.props.isLoadingSearch ? 
+                {!this.props.isLoadingSearch && !this.props.isLoadingInitial ? 
                 <b>({offRentNum})</b>:<></>}
               </Button>
             )}
@@ -45,7 +45,7 @@ let lookOtherNum = this.props.LookOtherPosts.length;
               <Button variant="primary" 
               style={{textDecoration: "underline", marginRight: ".5rem"  }}>
                 <b>Business/DGP</b>{' '}
-                {!this.props.isLoadingSearch ? 
+                {!this.props.isLoadingSearch && !this.props.isLoadingInitial ? 
                 <b>({offBizNum})</b>:<></>}
               </Button>
             ) : (
@@ -55,7 +55,7 @@ let lookOtherNum = this.props.LookOtherPosts.length;
                 onClick={()=> this.props.handleSelectedCategoryButton("offbiz")}
               >
                 <b>Business/DGP</b>{' '}
-                {!this.props.isLoadingSearch ? 
+                {!this.props.isLoadingSearch && !this.props.isLoadingInitial ? 
                 <b>({offBizNum})</b>:<></>}
               </Button>
             )}
@@ -64,7 +64,7 @@ let lookOtherNum = this.props.LookOtherPosts.length;
               <Button variant="primary" 
               style={{textDecoration: "underline",marginTop: ".2rem"}}>
                 <b>Other</b>{' '}
-                {!this.props.isLoadingSearch ? 
+                {!this.props.isLoadingSearch && !this.props.isLoadingInitial ? 
                 <b>({offOtherNum})</b>:<></>}
               </Button>
             ) : (
@@ -74,7 +74,7 @@ let lookOtherNum = this.props.LookOtherPosts.length;
                 onClick={()=> this.props.handleSelectedCategoryButton("offother")}
               >
                 <b>Other</b>{' '}
-                {!this.props.isLoadingSearch ? 
+                {!this.props.isLoadingSearch && !this.props.isLoadingInitial ? 
                 <b>({offOtherNum})</b>:<></>}
               </Button>
             )}
@@ -85,7 +85,7 @@ let lookOtherNum = this.props.LookOtherPosts.length;
               <Button variant="primary" 
               style={{ textDecoration: "underline", marginRight: ".5rem"  }}>
                 <b>Place to Rent</b>{' '}
-                {!this.props.isLoadingSearch ? 
+                {!this.props.isLoadingSearch && !this.props.isLoadingInitial ? 
                 <b>({lookRentNum})</b>:<></>}
               </Button>
             ) : (
@@ -95,7 +95,7 @@ let lookOtherNum = this.props.LookOtherPosts.length;
                 onClick={()=> this.props.handleSelectedCategoryButton("lookrent")}
               >
                 <b>Place to Rent</b>{' '}
-                {!this.props.isLoadingSearch ? 
+                {!this.props.isLoadingSearch && !this.props.isLoadingInitial ? 
                 <b>({lookRentNum})</b>:<></>}
               </Button>
             )}
@@ -104,7 +104,7 @@ let lookOtherNum = this.props.LookOtherPosts.length;
               <Button variant="primary" 
               style={{ textDecoration: "underline"}}>
                 <b>Other</b>{' '}
-                {!this.props.isLoadingSearch ? 
+                {!this.props.isLoadingSearch && !this.props.isLoadingInitial ? 
                 <b>({lookOtherNum})</b>:<></>}
               </Button>
             ) : (
@@ -113,7 +113,7 @@ let lookOtherNum = this.props.LookOtherPosts.length;
                 onClick={()=> this.props.handleSelectedCategoryButton("lookother")}
               >
                 <b>Other</b>{' '}
-                {!this.props.isLoadingSearch ? 
+                {!this.props.isLoadingSearch && !this.props.isLoadingInitial ? 
                 <b>({lookOtherNum})</b>:<></>}
               </Button>
             )}
