@@ -2984,6 +2984,11 @@ class App extends React.Component {
           <PostModal
             selectedSearchedPost={this.state.selectedSearchedPost}
             selectedSearchedPostNameDoc={this.state.selectedSearchedPostNameDoc}
+
+            whichNetwork={this.state.whichNetwork}
+            DataContractDGR={this.state.DataContractDGR}
+            DataContractDPNS={this.state.DataContractDPNS}
+
             isLoggedIn={this.state.isLoggedIn}
             isModalShowing={this.state.isModalShowing}
             hideModal={this.hideModal}

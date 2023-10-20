@@ -8,6 +8,7 @@ import CloseButton from 'react-bootstrap/CloseButton';
 import Spinner from "react-bootstrap/Spinner";
 
 import Reviews from './PostModalAddons/DGReview/Reviews'; //DGR Integration
+import RatingSummary from './PostModalAddons/DGReview/RatingSummary';
 
 const Dash = require("dash");
 
@@ -19,6 +20,7 @@ const {
 //1) Must bring in the functions to do this.
 
               /**
+               * 
                * {!this.state.isLoadingSearch ? (
           <>
              <Reviews 
@@ -66,8 +68,8 @@ class PostModal extends React.Component {
       SearchedReviewNames: [],
       SearchedReplies: [],
 
-      Search1: false,
-      Search2: false,
+      SearchDGR1: false,
+      SearchDGR2: false,
 
 
     };
@@ -256,14 +258,14 @@ getRelativeTimeAgo(messageTime, timeNow){
 //   this.getSearchReviews(identityToSearch);
 // }
 
-searchRace = () => {
-  if (this.state.Search1 &&
-    this.state.Search2) {
+searchDGRRace = () => {
+  if (this.state.SearchDGR1 &&
+    this.state.SearchDGR2) {
 this.setState({
-  Search1: false,
-  Search2: false,
+  SearchDGR1: false,
+  SearchDGR2: false,
   //DONT HAVE TO ADD STATE TO PUSH TO DISPLAY BECAUSE THE REVIEWS AND NAMES PUSHED TOGETHER AND THEN THREADS APPEAR <- SO DO I WANT TO QUERY NAME FIRST THEN?
-  isLoadingSearch: false,
+  LoadingDGR: false,
 });
 }
 }
@@ -272,10 +274,10 @@ getSearchReviews = (theIdentity) => {
   //console.log("Calling getSearchReviews");
 
   const clientOpts = {
-    network: this.state.whichNetwork,
+    network: this.props.whichNetwork,
     apps: {
       DGRContract: {
-        contractId: this.state.DataContractDGR,
+        contractId: this.props.DataContractDGR,
       },
     },
   };
@@ -301,11 +303,11 @@ getSearchReviews = (theIdentity) => {
 
         this.setState(
           {
-            Search1: true,
-            Search2: true,
+            SearchDGR1: true,
+            SearchDGR2: true,
             SearchedReviews: [],
           },
-          () => this.searchRace()
+          () => this.searchDGRRace()
         );
       } else {
 
@@ -314,9 +316,11 @@ getSearchReviews = (theIdentity) => {
 
         for(const n of d) {
           let returnedDoc = n.toJSON()
+
            //console.log("Review:\n", returnedDoc);
            returnedDoc.toId = Identifier.from(returnedDoc.toId, 'base64').toJSON();
            //console.log("newReview:\n", returnedDoc);
+
           docArray = [...docArray, returnedDoc];
         }
         this.getSearchReviewNames(docArray);
@@ -331,10 +335,10 @@ getSearchReviews = (theIdentity) => {
 
 getSearchReviewNames = (docArray) => {
   const clientOpts = {
-    network: this.state.whichNetwork,
+    network: this.props.whichNetwork,
     apps: {
       DPNS: {
-        contractId: this.state.DataContractDPNS,
+        contractId: this.props.DataContractDPNS,
       },
     },
   };
@@ -355,8 +359,8 @@ getSearchReviewNames = (docArray) => {
   })
   // End of Setting Unique reviews
 
-  arrayOfOwnerIds = arrayOfOwnerIds.map((item) =>
-    Buffer.from(Identifier.from(item))
+  arrayOfOwnerIds = arrayOfOwnerIds.map((ownerId) =>
+    Buffer.from(Identifier.from(ownerId))
   );
 
   //console.log("Calling getNamesforDSOmsgs");
@@ -388,14 +392,14 @@ getSearchReviewNames = (docArray) => {
         {
           SearchedReviewNames: nameDocArray,
           SearchedReviews: arrayOfReviews, //This is a unique set of reviews only single review per reviewer
-          Search1: true,
+          SearchDGR1: true,
         },
-        () => this.searchRace()
+        () => this.searchDGRRace()
       );
     })
     .catch((e) => {
       console.error(
-        "Something went wrong getting Search Names:\n",
+        "Something went wrong getting Search DGR Names:\n",
         e
       );
     })
@@ -405,10 +409,10 @@ getSearchReviewNames = (docArray) => {
 
 getSearchReplies = (docArray) => {
   const clientOpts = {
-    network: this.state.whichNetwork,
+    network: this.props.whichNetwork,
     apps: {
       DGRContract: {
-        contractId: this.state.DataContractDGR,
+        contractId: this.props.DataContractDGR,
       },
     },
   };
@@ -450,24 +454,24 @@ getSearchReplies = (docArray) => {
 
         this.setState(
           {
-            Search2: true,
+            SearchDGR2: true,
             SearchedReplies: docArray
           },
-          () => this.searchRace()
+          () => this.searchDGRRace()
         );
       
     })
     .catch((e) => {
-      console.error("Something went wrong Search Replies:\n", e);
+      console.error("Something went wrong Search DGR Replies:\n", e);
       
     })
     .finally(() => client.disconnect());
 };
 
-// componentDidMount() {
-//   this.getSearchReviews(this.props.selectedSearchedPostNameDoc.$ownerId);
+componentDidMount() {
+  this.getSearchReviews(this.props.selectedSearchedPostNameDoc.$ownerId);
 
-// }
+}
   
   render() { 
 
@@ -612,7 +616,57 @@ style={{ marginRight: ".2rem" }}>
 </>
 :
 <>
-<p className='bodytext'><b>DashGetReviews</b> is the next dapp! (Coming Soon!)</p>
+{/* <p className='bodytext'><b>DashGetReviews</b> is the next dapp! (Coming Soon!)</p> */}
+
+{/* THIS IS WHERE THE REVIEWS GO */}
+
+{this.state.LoadingDGR ? (
+          <>
+            <p></p>
+            <div id="spinner">
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            </div>
+            <p></p>
+          </>
+        ) : (
+          <></>
+        )}
+
+<RatingSummary
+            SearchedReviews={this.state.SearchedReviews}
+            SearchedNameDoc={this.props.selectedSearchedPostNameDoc}
+            isLoadingSearch={this.state.LoadingDGR}
+
+            />
+
+{!this.state.LoadingDGR ? (
+          <>
+             <Reviews 
+            mode={this.props.mode} //Props
+
+            SearchedReviews={this.state.SearchedReviews}  // State
+            SearchedReviewNames={this.state.SearchedReviewNames} //State
+            SearchedReplies={this.state.SearchedReplies} //State
+
+            SearchedNameDoc={this.props.selectedSearchedPostNameDoc} //Props
+
+              />
+          </>
+        ) : (
+          <></>
+        )}
+
+{this.state.SearchedReviews.length === 0 && !this.state.LoadingDGR ? 
+              <div className="bodytext">
+              <p>Sorry, there are no reviews available.</p>
+              </div>
+            :
+            <></>}
+
+
+
 </>
 }
 
