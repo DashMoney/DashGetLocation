@@ -10,10 +10,15 @@ import Spinner from "react-bootstrap/Spinner";
 //import Form from "react-bootstrap/Form";
 //import Alert from "react-bootstrap/Alert";
 
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 import TopNav from "./Components/TopNav/TopNav";
 
 import TabsOnPage from "./Components/Pages/TabsOnPage";
-//import CreditsOnPage from "./Components/Pages/CreditsOnPage";
+import CreditsOnPage from "./Components/Pages/CreditsOnPage";
+import LowCreditsOnPage from "./Components/Pages/LowCreditsOnPage";
 
 import LocationForm from "./Components/Pages/LocationForm";
 import ButtonsOnPage from "./Components/Pages/ButtonsOnPage";
@@ -68,8 +73,6 @@ class App extends React.Component {
       isLoadingYourPosts: true, // CHANGE BACK THIS IS FOR UI FAKE DATA TESTING ->
 
       mode: "dark",
-
-      denom: "Dash", //this can be removed because it is handled on at componenet based on amoutn <- do it ->
 
       //##### LOCATION FORM STATE ######
       whichCountryRegion: "Country",
@@ -148,6 +151,9 @@ class App extends React.Component {
       SearchLookOtherNames: [],
       //^^^^^ Search POSTS ^^^^^
 
+      selectedSearchedPost: '',
+      selectedSearchedPostNameDoc: '',
+
       yourPostsToDisplay: [],
 
       presentModal: "",
@@ -170,7 +176,8 @@ class App extends React.Component {
       skipSynchronizationBeforeHeight: 910000,
       mostRecentBlockHeight: 910000,
 
-      DataContractDMIO: 'HP51bqHWp5PhtPnqwfYPdJDV3uBmd6sfUvTJWV9LMEZi',
+      DataContractDMIO: 'H4MfTh4k2u6YpUS831MHRUgXqdxQuwMjQh8u4XGVVZ2j',
+      DataContractDGR: '6MLeoRrsSr4DKV4zT1pSdsDBUhzaGACCbarGzbZyvyyT',
       DataContractDPNS: "GWRSAVFMjXx8HpQFaNJMqBV7MBgMK4br5UESsB4S31Ec",
 
       expandedTopNav: false,
@@ -311,11 +318,11 @@ class App extends React.Component {
     );
   };
 
-  handleSearchedPost = (post, name) => {
+  handleSearchedPost = (post, nameDoc) => {
     this.setState(
       {
         selectedSearchedPost: post,
-        selectedSearchedPostName: name,
+        selectedSearchedPostNameDoc: nameDoc,
       },
       () => this.showModal("PostModal")
     );
@@ -2415,6 +2422,7 @@ class App extends React.Component {
         let post = {
           $ownerId: returnedDoc.$ownerId,
           $id: returnedDoc.$id,
+          $createdAt: returnedDoc.$createdAt,
 
           city: postObject.city,
           region: postObject.region,
@@ -2581,6 +2589,8 @@ class App extends React.Component {
         let post = {
           $ownerId: returnedDoc.$ownerId,
           $id: returnedDoc.$id,
+          $createdAt: returnedDoc.$createdAt,
+          
           city: postObject.city,
           region: postObject.region,
           country: postObject.country,
@@ -2593,13 +2603,15 @@ class App extends React.Component {
           dgp: postObject.dgp,
         };
 
-        let editedPost = this.state.yourPostsToDisplay;
+        let editedPosts = this.state.yourPostsToDisplay;
 
-        editedPost.splice(this.state.yourPostsToDisplay, 1, post);
+
+
+        editedPosts.splice(this.state.selectedYourPostIndex, 1, post);
 
         this.setState(
           {
-            yourPostsToDisplay: editedPost,
+            yourPostsToDisplay: editedPosts,
             isLoadingYourPosts: false,
           }
           //,() => console.log(this.state.yourPostsToDisplay)
@@ -2660,7 +2672,8 @@ class App extends React.Component {
       .finally(() => client.disconnect());
   };
 
-  //#######################################################################
+  // ####  ####  ####  ####  ####  ####  ####  ####  ####  ####  ####  ####  
+
 
   render() {
     this.state.mode === "primary"
@@ -2684,6 +2697,10 @@ class App extends React.Component {
         />
         <Image fluid="true" id="dash-bkgd" src={DashBkgd} alt="Dash Logo" />
 
+        <Container className="g-0">
+  <Row className="justify-content-md-center">
+    <Col md={9} lg={8} xl={7} xxl={6}>
+
         {this.state.isLoggedIn ? (
           <>
             <TabsOnPage
@@ -2695,6 +2712,11 @@ class App extends React.Component {
 
               {this.state.whichTab === "Search" ? (
                 <>
+                <LowCreditsOnPage 
+      identityInfo={this.state.identityInfo}
+      uniqueName={this.state.uniqueName}
+      showModal={this.showModal}
+       />
                   {/* {this.state.viewYourMsgsToPosts ? <></> : <></>} */}
 
                   {/* <div className="d-grid gap-2">
@@ -2780,6 +2802,12 @@ class App extends React.Component {
                 <>
                 
                   {/* THIS IS WHERE THE "YOUR POSTS" WILL GO */}
+                  <CreditsOnPage
+            identityInfo={this.state.identityInfo}
+            uniqueName={this.state.uniqueName}
+            showModal={this.showModal}
+            />
+
                   <YourPostsPage
                     yourPostsToDisplay={this.state.yourPostsToDisplay}
 
@@ -2876,6 +2904,11 @@ class App extends React.Component {
         <div className="bodytext">
           <Footer />
         </div>
+
+        </Col>
+        </Row>
+        </Container>
+
         {/* #####    BELOW ARE THE MODALS    #####    */}
 
         {this.state.isModalShowing &&
@@ -2950,7 +2983,7 @@ class App extends React.Component {
         this.state.presentModal === "PostModal" ? (
           <PostModal
             selectedSearchedPost={this.state.selectedSearchedPost}
-            selectedSearchedPostName={this.state.selectedSearchedPostName}
+            selectedSearchedPostNameDoc={this.state.selectedSearchedPostNameDoc}
             isLoggedIn={this.state.isLoggedIn}
             isModalShowing={this.state.isModalShowing}
             hideModal={this.hideModal}

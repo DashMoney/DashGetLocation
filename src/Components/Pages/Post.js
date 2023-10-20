@@ -134,28 +134,35 @@ class Post extends React.Component {
       cardText = "white";
     }
  
-     let nameToPass = ''; //this is the nameDoc and not the label
+     let nameDocToPass = ''; //this is the nameDoc and not the label
 
      if(this.props.post.$ownerId === this.props.identity){
-        nameToPass = this.props.uniqueName;
+      let myNameDoc ={
+        $ownerId: this.props.identity,
+        label: this.props.uniqueName,
+      }
+        nameDocToPass = myNameDoc;
+
       }else{
-        nameToPass = this.props.PostNames.find(doc => {
+
+        nameDocToPass = this.props.PostNames.find(doc => {
           return this.props.post.$ownerId === doc.$ownerId
         })
       }
 
-      if(nameToPass === undefined){
-        nameToPass = 'Not Found'
-      }else{
-        nameToPass = nameToPass.label;
-      }
+      //Pass the entire NameDoc!! => 
+      // if(nameToPass === undefined){
+      //   nameToPass = 'Not Found'
+      // }else{
+      //   nameToPass = nameToPass.label;
+      // }
 
       
 
     return (
       <>
        <Card id="card" key={this.props.index} bg={cardBkg} text={cardText}>
-        <Card.Body onClick={()=>this.props.handleSearchedPost(this.props.post, nameToPass)}>
+        <Card.Body onClick={()=>this.props.handleSearchedPost(this.props.post, nameDocToPass)}>
 
           <div className="locationTitle" style={{ marginBottom: ".5rem"  }}>
 
@@ -177,9 +184,9 @@ class Post extends React.Component {
           {/* {this.handleName(this.props.post)} */}
 
           <span style={{ color: "#008de3" }}
-          // onClick={() => this.handleNameClick(nameToPass)}
+          // onClick={() => this.handleNameClick(nameDocToPass.label)}
           >
-        {nameToPass}
+        {nameDocToPass.label}
         </span>
 
 
@@ -195,7 +202,7 @@ class Post extends React.Component {
           </Card.Title>
 
           <Card.Text
-          // onClick={()=>this.props.handleSearchedPost(this.props.post, nameToPass)}
+          
           
           >
             {this.props.post.description}

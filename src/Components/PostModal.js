@@ -5,6 +5,51 @@ import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import CloseButton from 'react-bootstrap/CloseButton';
+import Spinner from "react-bootstrap/Spinner";
+
+import Reviews from './PostModalAddons/DGReview/Reviews'; //DGR Integration
+
+const Dash = require("dash");
+
+const {
+  Essentials: { Buffer },
+  PlatformProtocol: { Identifier },
+} = Dash;
+
+//1) Must bring in the functions to do this.
+
+              /**
+               * {!this.state.isLoadingSearch ? (
+          <>
+             <Reviews 
+            mode={this.state.mode} //Props
+
+            SearchedReviews={this.state.SearchedReviews}  // State
+            SearchedReviewNames={this.state.SearchedReviewNames} //State
+            SearchedReplies={this.state.SearchedReplies} //State
+
+            SearchedNameDoc={this.state.SearchedNameDoc} //Props
+
+              />
+          </>
+        ) : (
+          <></>
+        )}
+
+        {this.state.isLoadingSearch ? (
+          <>
+            <p></p>
+            <div id="spinner">
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            </div>
+            <p></p>
+          </>
+        ) : (
+          <></>
+        )}
+               */
 
 class PostModal extends React.Component {
   constructor(props) {
@@ -12,6 +57,19 @@ class PostModal extends React.Component {
     this.state = {
       copiedName: false,
       whichDSODGR: "DSO",
+      LoadingDGR: true,
+      LoadingDSO: true, // => Move DSO to app so can load entire time and pop alert that it sent?
+      LoadingDGP: true, 
+
+      //DGR State to pass
+      SearchedReviews: [],
+      SearchedReviewNames: [],
+      SearchedReplies: [],
+
+      Search1: false,
+      Search2: false,
+
+
     };
   }
 
@@ -31,11 +89,7 @@ class PostModal extends React.Component {
     this.props.hideModal();
   };
 
-  // handleDisconnect = () => {
-  //   this.props.handleLogout();
-  //   this.props.closeTopNav();
-  //   this.handleCloseClick();
-  // }
+  
 
   handleNameClick = (nameLabel) => {
     navigator.clipboard.writeText(nameLabel);
@@ -194,6 +248,226 @@ getRelativeTimeAgo(messageTime, timeNow){
 //     .finally(() => client.disconnect()); 
 // };
 
+/* ####  ####  ####  ####  ####  ####  ####  ####  ####  ####  ####  #### */
+
+//PUT THE QUERY SEARCHES HERE
+
+// startSearch = (identityToSearch) =>{ //Called from name doc pulled -> 
+//   this.getSearchReviews(identityToSearch);
+// }
+
+searchRace = () => {
+  if (this.state.Search1 &&
+    this.state.Search2) {
+this.setState({
+  Search1: false,
+  Search2: false,
+  //DONT HAVE TO ADD STATE TO PUSH TO DISPLAY BECAUSE THE REVIEWS AND NAMES PUSHED TOGETHER AND THEN THREADS APPEAR <- SO DO I WANT TO QUERY NAME FIRST THEN?
+  isLoadingSearch: false,
+});
+}
+}
+
+getSearchReviews = (theIdentity) => {
+  //console.log("Calling getSearchReviews");
+
+  const clientOpts = {
+    network: this.state.whichNetwork,
+    apps: {
+      DGRContract: {
+        contractId: this.state.DataContractDGR,
+      },
+    },
+  };
+  const client = new Dash.Client(clientOpts);
+
+  const getDocuments = async () => {
+    return client.platform.documents.get("DGRContract.dgrreview", {
+      where: [
+        ["toId", "==", theIdentity],
+        ['$createdAt', '<=' , Date.now()]
+  ],
+  orderBy: [
+  ['$createdAt', 'desc'],
+],
+    });
+  };
+
+
+  getDocuments()
+    .then((d) => {
+      if (d.length === 0) {
+        //console.log("There are no SearchReviews");
+
+        this.setState(
+          {
+            Search1: true,
+            Search2: true,
+            SearchedReviews: [],
+          },
+          () => this.searchRace()
+        );
+      } else {
+
+        let docArray = [];
+        //console.log("Getting Search Reviews");
+
+        for(const n of d) {
+          let returnedDoc = n.toJSON()
+           //console.log("Review:\n", returnedDoc);
+           returnedDoc.toId = Identifier.from(returnedDoc.toId, 'base64').toJSON();
+           //console.log("newReview:\n", returnedDoc);
+          docArray = [...docArray, returnedDoc];
+        }
+        this.getSearchReviewNames(docArray);
+        this.getSearchReplies(docArray); 
+        
+        
+      }
+    })
+    .catch((e) => console.error("Something went wrong:\n", e))
+    .finally(() => client.disconnect());
+}; 
+
+getSearchReviewNames = (docArray) => {
+  const clientOpts = {
+    network: this.state.whichNetwork,
+    apps: {
+      DPNS: {
+        contractId: this.state.DataContractDPNS,
+      },
+    },
+  };
+  const client = new Dash.Client(clientOpts);
+  //START OF NAME RETRIEVAL
+
+  let ownerarrayOfOwnerIds = docArray.map((doc) => {
+    return doc.$ownerId;
+  });
+
+  let setOfOwnerIds = [...new Set(ownerarrayOfOwnerIds)];
+
+  let arrayOfOwnerIds = [...setOfOwnerIds];
+
+  // Start of Setting Unique reviews
+  let arrayOfReviews = arrayOfOwnerIds.map(id =>{
+     return docArray.find(doc => id === doc.$ownerId)
+  })
+  // End of Setting Unique reviews
+
+  arrayOfOwnerIds = arrayOfOwnerIds.map((item) =>
+    Buffer.from(Identifier.from(item))
+  );
+
+  //console.log("Calling getNamesforDSOmsgs");
+
+  const getNameDocuments = async () => {
+    return client.platform.documents.get("DPNS.domain", {
+      where: [["records.dashUniqueIdentityId", "in", arrayOfOwnerIds]],
+      orderBy: [["records.dashUniqueIdentityId", "asc"]],
+    });
+  };
+
+  getNameDocuments()
+    .then((d) => {
+      //WHAT IF THERE ARE NO NAMES? -> THEN THIS WON'T BE CALLED
+      if (d.length === 0) {
+        //console.log("No DPNS domain documents retrieved.");
+      }
+
+      let nameDocArray = [];
+
+      for (const n of d) {
+        //console.log("NameDoc:\n", n.toJSON());
+
+        nameDocArray = [n.toJSON(), ...nameDocArray];
+      }
+      //console.log(`DPNS Name Docs: ${nameDocArray}`);
+
+      this.setState(
+        {
+          SearchedReviewNames: nameDocArray,
+          SearchedReviews: arrayOfReviews, //This is a unique set of reviews only single review per reviewer
+          Search1: true,
+        },
+        () => this.searchRace()
+      );
+    })
+    .catch((e) => {
+      console.error(
+        "Something went wrong getting Search Names:\n",
+        e
+      );
+    })
+    .finally(() => client.disconnect());
+  //END OF NAME RETRIEVAL
+};
+
+getSearchReplies = (docArray) => {
+  const clientOpts = {
+    network: this.state.whichNetwork,
+    apps: {
+      DGRContract: {
+        contractId: this.state.DataContractDGR,
+      },
+    },
+  };
+  const client = new Dash.Client(clientOpts);
+
+  // This Below is to get unique set of ByYou review doc ids
+  let arrayOfReviewIds = docArray.map((doc) => {
+    return doc.$id;
+  });
+
+  //console.log("Array of ByYouThreads ids", arrayOfReviewIds);
+
+  let setOfReviewIds = [...new Set(arrayOfReviewIds)];
+
+  arrayOfReviewIds = [...setOfReviewIds];
+
+  //console.log("Array of order ids", arrayOfReviewIds);
+
+  const getDocuments = async () => {
+    //console.log("Called Get Search Replies");
+
+    return client.platform.documents.get("DGRContract.dgrreply", {
+      where: [["reviewId", "in", arrayOfReviewIds]], // check reviewId ->
+      orderBy: [["reviewId", "asc"]],
+    });
+  };
+
+  getDocuments()
+    .then((d) => {
+      let docArray = [];
+
+      for(const n of d) {
+        let returnedDoc = n.toJSON()
+         //console.log("Thr:\n", returnedDoc);
+         returnedDoc.reviewId = Identifier.from(returnedDoc.reviewId, 'base64').toJSON();
+         //console.log("newThr:\n", returnedDoc);
+        docArray = [...docArray, returnedDoc];
+      }
+
+        this.setState(
+          {
+            Search2: true,
+            SearchedReplies: docArray
+          },
+          () => this.searchRace()
+        );
+      
+    })
+    .catch((e) => {
+      console.error("Something went wrong Search Replies:\n", e);
+      
+    })
+    .finally(() => client.disconnect());
+};
+
+// componentDidMount() {
+//   this.getSearchReviews(this.props.selectedSearchedPostNameDoc.$ownerId);
+
+// }
   
   render() { 
 
@@ -255,8 +529,8 @@ style={{ marginRight: ".2rem" }}>
 </div>
 <p></p>
         <div className="cardTitle">
-        <h4 style={{ color: "#008de4" }} onClick={() => this.handleNameClick(this.props.selectedSearchedPostName)}>
-        {this.props.selectedSearchedPostName}
+        <h4 style={{ color: "#008de4" }} onClick={() => this.handleNameClick(this.props.selectedSearchedPostNameDoc.label)}>
+        {this.props.selectedSearchedPostNameDoc.label}
         </h4>
           
 

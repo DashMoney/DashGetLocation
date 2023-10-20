@@ -133,3 +133,10 @@ p{
   margin: .2rem;
 
 }
+
+.id-line{
+  display:flex;
+  flex-wrap: wrap;
+  word-wrap: break-word;
+  word-break: break-all;
+}
