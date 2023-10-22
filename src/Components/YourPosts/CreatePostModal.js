@@ -100,7 +100,7 @@ class CreatePostModal extends React.Component {
       tooLongDescriptionError: false,
 
       linkInput: "",
-      validLink: false,
+      validLink: true,
       tooLongLinkError: false,
 
       postActive: true,

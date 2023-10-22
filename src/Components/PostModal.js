@@ -10,6 +10,8 @@ import Spinner from "react-bootstrap/Spinner";
 import Reviews from './PostModalAddons/DGReview/Reviews'; //DGR Integration
 import RatingSummary from './PostModalAddons/DGReview/RatingSummary';
 
+import DGPView from './PostModalAddons/DGPaid/DGPView';
+
 const Dash = require("dash");
 
 const {
@@ -71,6 +73,10 @@ class PostModal extends React.Component {
       SearchDGR1: false,
       SearchDGR2: false,
 
+      merchantStore:[],
+
+      SearchDGP1: false,
+      SearchDGP2: false,
 
     };
   }
@@ -257,6 +263,8 @@ getRelativeTimeAgo(messageTime, timeNow){
 // startSearch = (identityToSearch) =>{ //Called from name doc pulled -> 
 //   this.getSearchReviews(identityToSearch);
 // }
+
+// ####      ####       ####      ####       ####      ####       ####  
 
 searchDGRRace = () => {
   if (this.state.SearchDGR1 &&
@@ -468,8 +476,128 @@ getSearchReplies = (docArray) => {
     .finally(() => client.disconnect());
 };
 
+// ####      ####       ####      ####       ####      ####       ####  
+
+searchDGPRace = () => {
+  if (this.state.SearchDGP1 &&
+    this.state.SearchDGP2) {
+
+        this.setState({
+          SearchDGP1: false,
+          SearchDGP2: false,
+          LoadingDGP: false,
+        });
+    }
+}
+
+getDGPStore = (theIdentity) => {
+  
+  const clientOpts = {
+    network: this.props.whichNetwork,
+    apps: {
+      DGPContract: {
+        contractId: this.props.DataContractDGP,
+      },
+    },
+  };
+  const client = new Dash.Client(clientOpts);
+
+  const getDocuments = async () => {
+    //console.log("Called Get DGP Store");
+
+    return client.platform.documents.get("DGPContract.dgpstore", {
+      where: [["$ownerId", "==", theIdentity]],
+    });
+  };
+
+  getDocuments()
+    .then((d) => {
+      let docArray = [];
+
+      if (d.length === 0) {
+        this.setState({
+          merchantStore: "No Store",
+          SearchDGP1: true,
+        },
+        () => this.searchDGPRace());
+      } else {
+        for (const n of d) {
+          //console.log("Store:\n", n.toJSON());
+          docArray = [...docArray, n.toJSON()];
+        }
+        this.setState({
+          merchantStore: docArray,
+          SearchDGP1: true,
+        },
+        () => this.searchDGPRace());
+      } //Ends the else
+    })
+    .catch((e) => {
+      console.error("Something went wrong:\n", e);
+      
+    })
+    .finally(() => client.disconnect()); 
+};
+
+getDGPItems = (theIdentity) => {
+
+  const clientOpts = {
+    network: this.props.whichNetwork,
+    apps: {
+      DGPContract: {
+        contractId: this.props.DataContractDGP,
+      },
+    },
+  };
+  const client = new Dash.Client(clientOpts);
+
+  const getDocuments = async () => {
+    //console.log("Called Get DGP Items");
+
+    return client.platform.documents.get("DGPContract.dgpitem", {
+      where: [["$ownerId", "==", theIdentity]],
+    });
+  };
+
+  getDocuments()
+    .then((d) => {
+      let docArray = [];
+
+      for (const n of d) {
+        //console.log("Item:\n", n.toJSON());
+        docArray = [...docArray, n.toJSON()];
+      }
+
+      if (docArray.length === 0) {
+        this.setState({
+          merchantItems: 'No Items',
+          SearchDGP2: true,
+        },
+        () => this.searchDGPRace());
+      } else {
+        this.setState({
+          merchantItems: docArray,
+          SearchDGP2: true,
+        },
+        () => this.searchDGPRace());
+      } //Ends the else
+    })
+    .catch((e) => {
+      console.error("Something went wrong DGP Items:\n", e);
+    })
+    .finally(() => client.disconnect()); 
+};
+
+
+// ####      ####       ####      ####       ####      ####       #### 
+
 componentDidMount() {
   this.getSearchReviews(this.props.selectedSearchedPostNameDoc.$ownerId);
+
+  if(this.props.selectedSearchedPost.dgp){
+    this.getDGPStore(this.props.selectedSearchedPostNameDoc.$ownerId);
+    this.getDGPItems(this.props.selectedSearchedPostNameDoc.$ownerId);
+  }
 
 }
   
@@ -568,12 +696,39 @@ style={{ marginRight: ".2rem" }}>
 <p></p>
 {this.props.selectedSearchedPost.category === 'offbiz' ?
 <>
-<h5>DashGetPaid (Coming Soon)</h5>
-<p>I think this will not be a button and will just straight up load the DGPSTore and items!!</p>
+<h5><b>Items for Purchase</b></h5>
+{this.state.LoadingDGP ? (
+          <>
+            <p></p>
+            <div id="spinner">
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            </div>
+            <p></p>
+          </>
+        ) : (
+          <></>
+        )}
+
+{/* <h5>DashGetPaid (Coming Soon)</h5>
+<p>I think this will not be a button and will just straight up load the DGPSTore and items!!</p> */}
+
+{this.props.selectedSearchedPost.dgp && !this.state.LoadingDGP? 
+<>
+<DGPView 
+merchantStore={this.state.merchantStore}
+merchantItems={this.state.merchantItems}
+/>
+</>
+  :
+<></>
+}
 </>
 :
 <></>
 }
+<p></p>
 <div className="BottomBorder" ></div>
 <p></p>
 

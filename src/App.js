@@ -177,6 +177,7 @@ class App extends React.Component {
       mostRecentBlockHeight: 910000,
 
       DataContractDMIO: 'H4MfTh4k2u6YpUS831MHRUgXqdxQuwMjQh8u4XGVVZ2j',
+      DataContractDGP: 'DjGsmQpudtHVrXw2sdcBUEipCzMMxsDtkx1ySCWinhKx',
       DataContractDGR: '6MLeoRrsSr4DKV4zT1pSdsDBUhzaGACCbarGzbZyvyyT',
       DataContractDPNS: "GWRSAVFMjXx8HpQFaNJMqBV7MBgMK4br5UESsB4S31Ec",
 
@@ -2988,6 +2989,7 @@ class App extends React.Component {
             whichNetwork={this.state.whichNetwork}
             DataContractDGR={this.state.DataContractDGR}
             DataContractDPNS={this.state.DataContractDPNS}
+            DataContractDGP={this.state.DataContractDGP}
 
             isLoggedIn={this.state.isLoggedIn}
             isModalShowing={this.state.isModalShowing}
