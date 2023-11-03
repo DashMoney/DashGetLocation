@@ -162,6 +162,7 @@ class Post extends React.Component {
     return (
       <>
        <Card id="card" key={this.props.index} bg={cardBkg} text={cardText}>
+        
         <Card.Body onClick={()=>this.props.handleSearchedPost(this.props.post, nameDocToPass)}>
 
           <div className="locationTitle" style={{ marginBottom: ".5rem"  }}>

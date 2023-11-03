@@ -10,9 +10,9 @@ import Spinner from "react-bootstrap/Spinner";
 //import Form from "react-bootstrap/Form";
 //import Alert from "react-bootstrap/Alert";
 
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 import TopNav from "./Components/TopNav/TopNav";
 
@@ -59,18 +59,17 @@ class App extends React.Component {
 
       isLoading: true, //For identity and name And not identityInfo that is handle on component
 
-      isLoadingRefresh: false, //For Platform data reloading (unused currently)
-      //There isn't a refresh.. there isn't a load right? could have an auto check also for when logged in.
+      isLoadingDSODM: false,
+
       isLoadingInitial: true,
 
       isLoadingSearch: false, // CHANGE BACK THIS IS FOR UI FAKE DATA TESTING ->
 
       isLoadingForm: false,
-      isLoadingButton: false, // Could I combine the Form and buttons ? ->
 
       isLoadingWallet: true, //For wallet for topup
 
-      isLoadingYourPosts: true, // CHANGE BACK THIS IS FOR UI FAKE DATA TESTING ->
+      isLoadingYourPosts: true,
 
       mode: "dark",
 
@@ -134,7 +133,7 @@ class App extends React.Component {
       Search3: false,
       Search4: false,
       Search5: false,
-      
+
       SearchOffRentPosts: [],
       SearchOffRentNames: [],
 
@@ -151,8 +150,8 @@ class App extends React.Component {
       SearchLookOtherNames: [],
       //^^^^^ Search POSTS ^^^^^
 
-      selectedSearchedPost: '',
-      selectedSearchedPostNameDoc: '',
+      selectedSearchedPost: "",
+      selectedSearchedPostNameDoc: "",
 
       yourPostsToDisplay: [],
 
@@ -173,12 +172,13 @@ class App extends React.Component {
       platformLogin: false, //Will this be used? -> check ->
       LocalForageKeys: [],
 
-      skipSynchronizationBeforeHeight: 910000,
-      mostRecentBlockHeight: 910000,
+      skipSynchronizationBeforeHeight: 905000,
+      mostRecentBlockHeight: 905000,
 
-      DataContractDMIO: 'H4MfTh4k2u6YpUS831MHRUgXqdxQuwMjQh8u4XGVVZ2j',
-      DataContractDGP: 'DjGsmQpudtHVrXw2sdcBUEipCzMMxsDtkx1ySCWinhKx',
-      DataContractDGR: '6MLeoRrsSr4DKV4zT1pSdsDBUhzaGACCbarGzbZyvyyT',
+      DataContractDMIO: "6UZx2t8ZwqJuZ3fLRRXg5iBgUcewfXuZK1vMxcxaMf5b",
+      DataContractDGP: "G64qPciumaNrwCz9puWq8tnFbUr4QHNVFHD7qbBCAszd",
+      DataContractDGR: "GvMq3H76kUZotsdwPv9fdAuYGjk2XRojT5Ufj32WD4Xn",
+      DataContractDSO: "Cp5SJNvy3CdmCJpFFXM4haA1vS2nEJb7avKpEfVLgoyE",
       DataContractDPNS: "GWRSAVFMjXx8HpQFaNJMqBV7MBgMK4br5UESsB4S31Ec",
 
       expandedTopNav: false,
@@ -230,7 +230,6 @@ class App extends React.Component {
   handleOnChangeValidation = (event) => {
     this.setState({
       nameAvail: false,
-      isLoadingVerify: false,
       identityIdReceipient: "", //Test if this clears the error msg after failed send ->
       dgmDocumentsForReceipient: [],
       isError: false,
@@ -363,206 +362,202 @@ class App extends React.Component {
 
         whichTab: "Search",
         selectedCategoryButton: "offrent",
-  
+
         //viewYourMsgsToPosts: false, //false to show form and true for msgs
-  
+
         isLoading: true, //For identity and name And not identityInfo that is handle on component
-  
-        isLoadingRefresh: false, //For Platform data reloading (unused currently)
-        //There isn't a refresh.. there isn't a load right? could have an auto check also for when logged in.
+
+        isLoadingDSODM: false,
+
         isLoadingInitial: true,
-  
+
         isLoadingSearch: false, // CHANGE BACK THIS IS FOR UI FAKE DATA TESTING ->
-  
+
         isLoadingForm: false,
-        isLoadingButton: false, // Could I combine the Form and buttons ? ->
-  
+
         isLoadingWallet: true, //For wallet for topup
-  
+
         isLoadingYourPosts: true, // CHANGE BACK THIS IS FOR UI FAKE DATA TESTING ->
-  
+
         mode: "dark",
-  
+
         denom: "Dash", //this can be removed because it is handled on at componenet based on amoutn <- do it ->
-  
+
         //##### LOCATION FORM STATE ######
         whichCountryRegion: "Country",
-  
+
         cityInput: "",
         validCity: true,
         tooLongCityNameError: false,
-  
+
         countryRegionInput: "",
         validCountryRegion: true,
         tooLongCountryRegionNameError: false,
         //^^^^^ LOCATION FORM STATE ^^^^^
-  
+
         //#####  POSTS TO DISPLAY ######
         OffRentPosts: [],
         OffRentNames: [],
-  
+
         OffBizPosts: [],
         OffBizNames: [],
-  
+
         OffOtherPosts: [],
         OffOtherNames: [],
-  
+
         LookRentPosts: [],
         LookRentNames: [],
-  
+
         LookOtherPosts: [],
         LookOtherNames: [],
         //^^^^^ POSTS TO DISPLAY ^^^^^
-  
+
         //##### INITIAL POSTS ######
-  
+
         Initial1: false,
         Initial2: false,
         Initial3: false,
         Initial4: false,
         Initial5: false,
-  
+
         InitialOffRentPosts: [],
         InitialOffRentNames: [],
-  
+
         InitialOffBizPosts: [],
         InitialOffBizNames: [],
-  
+
         InitialOffOtherPosts: [],
         InitialOffOtherNames: [],
-  
+
         InitialLookRentPosts: [],
         InitialLookRentNames: [],
-  
+
         InitialLookOtherPosts: [],
         InitialLookOtherNames: [],
         //^^^^^ INITIAL POSTS ^^^^^
-  
+
         //##### Search POSTS ######
-  
+
         Search1: false,
         Search2: false,
         Search3: false,
         Search4: false,
         Search5: false,
-        
+
         SearchOffRentPosts: [],
         SearchOffRentNames: [],
-  
+
         SearchOffBizPosts: [],
         SearchOffBizNames: [],
-  
+
         SearchOffOtherPosts: [],
         SearchOffOtherNames: [],
-  
+
         SearchLookRentPosts: [],
         SearchLookRentNames: [],
-  
+
         SearchLookOtherPosts: [],
         SearchLookOtherNames: [],
         //^^^^^ Search POSTS ^^^^^
-  
+
         yourPostsToDisplay: [],
-  
+
         presentModal: "",
         isModalShowing: false,
         whichNetwork: "testnet",
-  
+
         mnemonic: "",
         identity: "",
         identityInfo: "",
         identityRaw: "",
         uniqueName: "",
-  
+
         accountBalance: "",
-  
+
         walletId: "",
         mostRecentLogin: false,
         platformLogin: false, //Will this be used? -> check ->
         LocalForageKeys: [],
-  
+
         skipSynchronizationBeforeHeight: 910000,
         mostRecentBlockHeight: 910000,
-  
+
         expandedTopNav: false,
       },
       () => this.componentDidMount()
     );
   };
 
-    componentDidMount() {
+  componentDidMount() {
+    this.getInitialPosts(); // <- Call initial Post first to speed up the initial login
 
-      this.getInitialPosts() // <- Call initial Post first to speed up the initial login
+    //All componentDidMount will do is call the initial queries -> okay then how will the login work ? So it really just needs platform and not wallet.
 
+    //THOUGHT <- wHAT IF i DO ONE PULL FOR THE INITIAL AND THEN SORT SO INSTEAD OF UP TO 10 ITS JUST 2 AND THEN i CAN DO A MOST RECENT BECAUSE PEOPLE WILL BE LOGGING IN FAIRLY QUICKLY..
+    //mAKE IT FAT. <- OKAY AND ITS HOW IT IS SET UP ANYWAY DOUBLE WIN
 
-  //All componentDidMount will do is call the initial queries -> okay then how will the login work ? So it really just needs platform and not wallet.
+    LocalForage.config({
+      name: "dashmoney-platform-login",
+    });
 
-  //THOUGHT <- wHAT IF i DO ONE PULL FOR THE INITIAL AND THEN SORT SO INSTEAD OF UP TO 10 ITS JUST 2 AND THEN i CAN DO A MOST RECENT BECAUSE PEOPLE WILL BE LOGGING IN FAIRLY QUICKLY..
-  //mAKE IT FAT. <- OKAY AND ITS HOW IT IS SET UP ANYWAY DOUBLE WIN
-
-      LocalForage.config({
-        name: "dashmoney-platform-login",
+    LocalForage.getItem("mostRecentWalletId")
+      .then((val) => {
+        if (val !== null) {
+          //this.handleInitialQuerySeq(val.identity);
+          this.setState({
+            walletId: val.walletId,
+            identity: val.identity,
+            uniqueName: val.name,
+          });
+        } else {
+          console.log("There is no mostRecentWalletId");
+        }
+      })
+      .catch(function (err) {
+        console.log(err);
       });
 
-      LocalForage.getItem("mostRecentWalletId")
-        .then((val) => {
-          if (val !== null) {
-            //this.handleInitialQuerySeq(val.identity);
-            this.setState({
-              walletId: val.walletId,
-              identity: val.identity,
-              uniqueName: val.name,
-            });
-          } else {
-            console.log("There is no mostRecentWalletId");
-          }
-        })
-        .catch(function (err) {
-          console.log(err);
+    //***Next Bit Gets MostRecentBlockHeight */ //tHIS IS FOR THE PLATFORM LOGIN BC THE OFFLINE WALLET GRAB JUST GETS THE WALLETID.. OKAY THEN WHAT DO i NEED THE MOST RECENT FOR THEN? TO GET THE IDENTITYiNFO??
+    //iS THIS MORE LIKE dso AND NOT dgp, they are actually pretty similar
+    const clientOpts = {
+      network: this.state.whichNetwork,
+    };
+    const client = new Dash.Client(clientOpts);
+
+    const getMostRecentBlockHeight = async () => {
+      const status = await client.getDAPIClient().core.getStatus();
+
+      return status;
+    };
+
+    getMostRecentBlockHeight()
+      .then((d) => {
+        let blockHeight = d.chain.blocksCount;
+        console.log("Most Recent Block Height:\n", blockHeight);
+        this.setState({
+          mostRecentBlockHeight: blockHeight - 6,
         });
+      })
+      .catch((e) => {
+        console.error("Something went wrong:\n", e);
+      })
+      .finally(() => client.disconnect());
 
-  //***Next Bit Gets MostRecentBlockHeight */ //tHIS IS FOR THE PLATFORM LOGIN BC THE OFFLINE WALLET GRAB JUST GETS THE WALLETID.. OKAY THEN WHAT DO i NEED THE MOST RECENT FOR THEN? TO GET THE IDENTITYiNFO??
-  //iS THIS MORE LIKE dso AND NOT dgp, they are actually pretty similar
-      const clientOpts = {
-        network: this.state.whichNetwork,
-      };
-      const client = new Dash.Client(clientOpts);
-
-      const getMostRecentBlockHeight = async () => {
-        const status = await client.getDAPIClient().core.getStatus();
-
-        return status;
-      };
-
-      getMostRecentBlockHeight()
-        .then((d) => {
-          let blockHeight = d.chain.blocksCount;
-          console.log("Most Recent Block Height:\n", blockHeight);
-          this.setState({
-            mostRecentBlockHeight: blockHeight - 6,
-          });
-        })
-        .catch((e) => {
-          console.error("Something went wrong:\n", e);
-        })
-        .finally(() => client.disconnect());
-
-  //Next Part Gets keys for platform login check
-      LocalForage.keys()
-        .then((keys) => {
-          this.setState({
-            LocalForageKeys: keys,
-          });
-          console.log('Local Forage keys:\n', keys);
-        })
-        .catch(function (err) {
-          console.log(err);
+    //Next Part Gets keys for platform login check
+    LocalForage.keys()
+      .then((keys) => {
+        this.setState({
+          LocalForageKeys: keys,
         });
+        console.log("Local Forage keys:\n", keys);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  }
 
-    }
-
-  handleInitialQuerySeq = (theIdentity) => { //this is with the mostrecent login so its a guess
-
+  handleInitialQuerySeq = (theIdentity) => {
+    //this is with the mostrecent login so its a guess
 
     //this.getInitialPostsMsgsThreads(theIdentity);
     //so this should query the users posts and users msgs to other posts
@@ -805,7 +800,7 @@ class App extends React.Component {
       this.getNamefromIdentity(theIdentity);
       this.getIdentityInfo(theIdentity);
     }
-   
+
     this.getWalletwithMnem(theMnemonic);
   };
 
@@ -989,7 +984,7 @@ class App extends React.Component {
       return client.platform.documents.get("DMIOContract.dmiopost", {
         where: [
           ["$ownerId", "==", theIdentity], // offrent, offbiz, offother, lookrent, lookother
-          ["$createdAt", "<=",  Date.now()],
+          ["$createdAt", "<=", Date.now()],
         ],
         orderBy: [["$createdAt", "desc"]],
       });
@@ -1001,9 +996,8 @@ class App extends React.Component {
           console.log("There are no Your Posts");
 
           this.setState({
-              isLoadingYourPosts: false,
-            });
-
+            isLoadingYourPosts: false,
+          });
         } else {
           let docArray = [];
           //console.log("GettingYour Posts");
@@ -1016,7 +1010,6 @@ class App extends React.Component {
             yourPostsToDisplay: docArray,
             isLoadingYourPosts: false,
           });
-          
         }
       })
       .catch((e) => console.error("Something went wrong:\n", e))
@@ -1027,15 +1020,13 @@ class App extends React.Component {
 
   //PUT THE QUERY SEARCHES HERE
 
-  //START WITHTHE MOST RECENT POSTS -> MAYBE MAKE SEPARATE AND HOW WILL IT WORK WITH THE FORM ??
-
   getInitialPosts = () => {
     this.getInitialOffRent();
     this.getInitialOffBiz();
     this.getInitialOffOther();
     this.getInitialLookRent();
     this.getInitialLookOther();
-  }
+  };
 
   checkInitialRace = () => {
     if (
@@ -1046,21 +1037,20 @@ class App extends React.Component {
       this.state.Initial5
     ) {
       this.setState({
+        OffRentPosts: this.state.InitialOffRentPosts,
+        OffRentNames: this.state.InitialOffRentNames,
 
-      OffRentPosts: this.state.InitialOffRentPosts,
-      OffRentNames: this.state.InitialOffRentNames,
+        OffBizPosts: this.state.InitialOffBizPosts,
+        OffBizNames: this.state.InitialOffBizNames,
 
-      OffBizPosts: this.state.InitialOffBizPosts,
-      OffBizNames: this.state.InitialOffBizNames,
+        OffOtherPosts: this.state.InitialOffOtherPosts,
+        OffOtherNames: this.state.InitialOffOtherNames,
 
-      OffOtherPosts: this.state.InitialOffOtherPosts,
-      OffOtherNames: this.state.InitialOffOtherNames,
+        LookRentPosts: this.state.InitialLookRentPosts,
+        LookRentNames: this.state.InitialLookRentNames,
 
-      LookRentPosts: this.state.InitialLookRentPosts,
-      LookRentNames: this.state.InitialLookRentNames,
-
-      LookOtherPosts: this.state.InitialLookOtherPosts,
-      LookOtherNames: this.state.InitialLookOtherNames,
+        LookOtherPosts: this.state.InitialLookOtherPosts,
+        LookOtherNames: this.state.InitialLookOtherNames,
 
         //I DONT NEED ^^ BECAUSE INITIAL SHOULD PULL AUTOMATICALLY!! well actually I do.. I need to push the initials to the display..
 
@@ -1086,7 +1076,7 @@ class App extends React.Component {
       return client.platform.documents.get("DMIOContract.dmiopost", {
         where: [
           ["category", "==", "offrent"], // offrent, offbiz, offother, lookrent, lookother
-          ["$createdAt", "<=",  Date.now()],
+          ["$createdAt", "<=", Date.now()],
         ],
         orderBy: [["$createdAt", "desc"]],
       });
@@ -1202,7 +1192,7 @@ class App extends React.Component {
       return client.platform.documents.get("DMIOContract.dmiopost", {
         where: [
           ["category", "==", "offbiz"], // offrent, offbiz, offother, lookrent, lookother
-          ["$createdAt", "<=",  Date.now()],
+          ["$createdAt", "<=", Date.now()],
         ],
         orderBy: [["$createdAt", "desc"]],
       });
@@ -1318,7 +1308,7 @@ class App extends React.Component {
       return client.platform.documents.get("DMIOContract.dmiopost", {
         where: [
           ["category", "==", "offother"], // offrent, offbiz, offother, lookrent, lookother
-          ["$createdAt", "<=",  Date.now()],
+          ["$createdAt", "<=", Date.now()],
         ],
         orderBy: [["$createdAt", "desc"]],
       });
@@ -1434,7 +1424,7 @@ class App extends React.Component {
       return client.platform.documents.get("DMIOContract.dmiopost", {
         where: [
           ["category", "==", "lookrent"], // offrent, offbiz, offother, lookrent, lookother
-          ["$createdAt", "<=",  Date.now()],
+          ["$createdAt", "<=", Date.now()],
         ],
         orderBy: [["$createdAt", "desc"]],
       });
@@ -1550,7 +1540,7 @@ class App extends React.Component {
       return client.platform.documents.get("DMIOContract.dmiopost", {
         where: [
           ["category", "==", "lookother"], // offrent, offbiz, offother, lookrent, lookother
-          ["$createdAt", "<=",  Date.now()],
+          ["$createdAt", "<=", Date.now()],
         ],
         orderBy: [["$createdAt", "desc"]],
       });
@@ -1652,11 +1642,10 @@ class App extends React.Component {
   //This one will be interesting bc I am goin to construct the query and then pass it to each of the functions this will save about 3 or 4 different
 
   constructQueryThenSearch = () => {
-    
     this.setState({
       isLoadingSearch: true,
-      isLoadingForm:true,
-    })
+      isLoadingForm: true,
+    });
 
     //So what are the parts and I assume I will pull from state for the parameters
     /* NEED TO DO 5 QUERIES FOR EACH SEARCH (need to normalize/lowercase)
@@ -1692,7 +1681,7 @@ class App extends React.Component {
     //How to search if all blank-> it is handled automatically ??
 
     //Do i want to add the category here and then change in each or just add the rest in each?? -> just change in each that is pretty easy. <- how then?
-    //I got a way, dont fill in 3rd spot, use find with length === 2 and then push the specific query!! <- I like it
+    //I got a way, dont fill in 3rd spot, use find with length === 2 and then push the specific query!! <- I like it => done
 
     let whereArray = [];
 
@@ -1735,9 +1724,7 @@ class App extends React.Component {
     this.getOffOther(queryObject, categoryIndex);
     this.getLookRent(queryObject, categoryIndex);
     this.getLookOther(queryObject, categoryIndex);
-
   };
-
 
   checkSearchRace = () => {
     if (
@@ -1748,28 +1735,26 @@ class App extends React.Component {
       this.state.Search5
     ) {
       this.setState({
+        Search1: false,
+        Search2: false,
+        Search3: false,
+        Search4: false,
+        Search5: false,
 
-      Search1: false,
-      Search2: false,
-      Search3: false,
-      Search4: false,
-      Search5: false,
+        // OffRentPosts: this.state.SearchOffRentPosts,
+        // OffRentNames: this.state.SearchOffRentNames,
 
+        // OffBizPosts: this.state.SearchOffBizPosts,
+        // OffBizNames: this.state.SearchOffBizNames,
 
-      // OffRentPosts: this.state.SearchOffRentPosts,
-      // OffRentNames: this.state.SearchOffRentNames,
+        // OffOtherPosts: this.state.SearchOffOtherPosts,
+        // OffOtherNames: this.state.SearchOffOtherNames,
 
-      // OffBizPosts: this.state.SearchOffBizPosts,
-      // OffBizNames: this.state.SearchOffBizNames,
+        // LookRentPosts: this.state.SearchLookRentPosts,
+        // LookRentNames: this.state.SearchLookRentNames,
 
-      // OffOtherPosts: this.state.SearchOffOtherPosts,
-      // OffOtherNames: this.state.SearchOffOtherNames,
-
-      // LookRentPosts: this.state.SearchLookRentPosts,
-      // LookRentNames: this.state.SearchLookRentNames,
-
-      // LookOtherPosts: this.state.SearchLookOtherPosts,
-      // LookOtherNames: this.state.SearchLookOtherNames,
+        // LookOtherPosts: this.state.SearchLookOtherPosts,
+        // LookOtherNames: this.state.SearchLookOtherNames,
 
         isLoadingSearch: false,
         isLoadingForm: false,
@@ -1906,7 +1891,7 @@ class App extends React.Component {
       return client.platform.documents.get("DMIOContract.dmiopost", {
         where: [
           ["category", "==", "offbiz"], // offrent, offbiz, offother, lookrent, lookother
-          ["$createdAt", "<=",  Date.now()],
+          ["$createdAt", "<=", Date.now()],
         ],
         orderBy: [["$createdAt", "desc"]],
       });
@@ -2019,7 +2004,7 @@ class App extends React.Component {
       return client.platform.documents.get("DMIOContract.dmiopost", {
         where: [
           ["category", "==", "offother"], // offrent, offbiz, offother, lookrent, lookother
-          ["$createdAt", "<=",  Date.now()],
+          ["$createdAt", "<=", Date.now()],
         ],
         orderBy: [["$createdAt", "desc"]],
       });
@@ -2132,7 +2117,7 @@ class App extends React.Component {
       return client.platform.documents.get("DMIOContract.dmiopost", {
         where: [
           ["category", "==", "lookrent"], // offrent, offbiz, offother, lookrent, lookother
-          ["$createdAt", "<=",  Date.now()],
+          ["$createdAt", "<=", Date.now()],
         ],
         orderBy: [["$createdAt", "desc"]],
       });
@@ -2245,7 +2230,7 @@ class App extends React.Component {
       return client.platform.documents.get("DMIOContract.dmiopost", {
         where: [
           ["category", "==", "lookother"], // offrent, offbiz, offother, lookrent, lookother
-          ["$createdAt", "<=",  Date.now()],
+          ["$createdAt", "<=", Date.now()],
         ],
         orderBy: [["$createdAt", "desc"]],
       });
@@ -2568,8 +2553,8 @@ class App extends React.Component {
       ) {
         document.set("dgp", postObject.dgp);
       }
-      
-//TEST -> 
+
+      //TEST ->
       await platform.documents.broadcast({ replace: [document] }, identity);
       return document;
 
@@ -2591,7 +2576,7 @@ class App extends React.Component {
           $ownerId: returnedDoc.$ownerId,
           $id: returnedDoc.$id,
           $createdAt: returnedDoc.$createdAt,
-          
+
           city: postObject.city,
           region: postObject.region,
           country: postObject.country,
@@ -2605,8 +2590,6 @@ class App extends React.Component {
         };
 
         let editedPosts = this.state.yourPostsToDisplay;
-
-
 
         editedPosts.splice(this.state.selectedYourPostIndex, 1, post);
 
@@ -2673,8 +2656,219 @@ class App extends React.Component {
       .finally(() => client.disconnect());
   };
 
-  // ####  ####  ####  ####  ####  ####  ####  ####  ####  ####  ####  ####  
+  submitDSODM = (addedMessage, ownerIdArray) => {
+    //  -> sh: out, dir, tip ? AND DMIO?? So they know its msg from different dapp?
 
+    this.setState({
+      isLoadingDSODM: true,
+    });
+
+    //console.log(addedMessage);
+    const clientOpts = {
+      network: this.state.whichNetwork,
+      wallet: {
+        mnemonic: this.state.mnemonic,
+        //adapter: LocalForage,
+        unsafeOptions: {
+          skipSynchronizationBeforeHeight: this.state.mostRecentBlockHeight,
+          //this.state.skipSynchronizationBeforeHeight,
+        },
+      },
+      apps: {
+        DSOContract: {
+          contractId: this.state.DataContractDSO, // Your contract ID
+        },
+      },
+    };
+    const client = new Dash.Client(clientOpts);
+
+    //let dsoMessageAndTags;
+    let dsoTags;
+
+    const submitDocuments = async () => {
+      const { platform } = client;
+
+      let identity = "";
+      if (this.state.identityRaw !== "") {
+        identity = this.state.identityRaw;
+      } else {
+        identity = await platform.identities.get(this.state.identity);
+      } // Your identity ID
+
+      let docProperties = {};
+
+      /*dsomsg ->
+       msg, sh, msgId(for reply)  (only first 2 are required)
+*/
+
+      //THIS WILL ONLY BE THE DM MESSAGE SO SHOW TO SIMPLIFY =>
+
+      if (addedMessage.sh === "out") {
+        docProperties = {
+          msg: addedMessage.msg,
+          sh: "out",
+        };
+      } //RIGHT HERE IS WHERE i PUT THE 'dir'
+      //and then if 'thr' adds the state to the msgId ->
+      else {
+        docProperties = {
+          msg: addedMessage.msg,
+        };
+      }
+
+      // Create the note document
+      const dsoDocument = await platform.documents.create(
+        "DSOContract.dsomsg", /// I changed .note TO .dsomessage***
+        identity,
+        docProperties
+      );
+
+      console.log(dsoDocument.toJSON());
+
+      console.log("OwnerIdArray of Tags: ", ownerIdArray);
+
+      //THERE WILL ONLY BE ONE TAG ALWAYS SO THIS IS UNNECESSARY
+
+      if (ownerIdArray.length !== 0) {
+        let dsotags = await Promise.all(
+          ownerIdArray.map(async (ownerId) => {
+            //https://stackoverflow.com/questions/40140149/use-async-await-with-array-map
+
+            //dsotag ->  toId, msgId (all required)
+
+            let tagDoc = await platform.documents.create(
+              "DSOContract.dsotag",
+              identity,
+              {
+                toId: ownerId,
+                msgId: dsoDocument.toJSON().$id,
+              }
+            );
+            return tagDoc;
+          })
+        );
+
+        dsoTags = dsotags;
+      } //else {
+      // dsoMessageAndTags = [dsoDocument];
+      // }
+
+      //THIS ^^^ IS WHAT IS PASSED TO THE DOCUMENT CREATION
+
+      //############################################################
+      //This below disconnects the document sending..***
+
+      //return dsoMessageAndTags;
+
+      //This is to disconnect the Document Creation***
+
+      //############################################################
+
+      // const documentBatch = {
+      //   create: dsoMessageAndTags, // [dsoDocument], // Document(s) to create
+      // };
+
+      const msgBatch = {
+        create: [dsoDocument], // Document(s) to create
+      };
+
+      const tagBatch = {
+        create: dsoTags, // Document(s) to create
+      };
+
+      await platform.documents.broadcast(msgBatch, identity);
+
+      if (ownerIdArray.length !== 0) {
+        await platform.documents.broadcast(tagBatch, identity);
+      }
+
+      return [dsoDocument];
+    };
+
+    submitDocuments()
+      .then((d) => {
+        //Returns array!!! ->
+        // let returnedDoc = d.toJSON();
+        // console.log("MSG Documents JSON:\n", returnedDoc);
+
+        let docArray = [];
+        for (const n of d) {
+          console.log("Submitted Doc:\n", n.toJSON());
+          docArray = [...docArray, n.toJSON()];
+        }
+
+        let message = {};
+
+        if (docArray.length === 1) {
+          message = {
+            $ownerId: docArray[0].$ownerId,
+            $id: docArray[0].$id, //$id: returnedDoc.transitions[0].$id,
+            sh: addedMessage.sh,
+            msg: addedMessage.msg,
+            $createdAt: docArray[0].$createdAt,
+          };
+        } else {
+          docArray.forEach((doc) => {
+            //OR I could do a find and it would be a bit faster ->
+            if (doc.$type === "dsomsg") {
+              message = {
+                $ownerId: doc.$ownerId,
+                $id: doc.$id,
+                sh: addedMessage.sh,
+                msg: addedMessage.msg,
+                $createdAt: doc.$createdAt,
+              };
+            }
+          });
+        }
+
+        if (addedMessage.sh === "out") {
+          this.setState(
+            {
+              EveryoneMsgs: [message, ...this.state.EveryoneMsgs],
+              ByYouMsgs: [message, ...this.state.ByYouMsgs],
+              isLoadingDSODM: false,
+            },
+            () => this.updateIdentityInfo()
+          );
+        } else {
+          this.setState(
+            {
+              ByYouMsgs: [message, ...this.state.ByYouMsgs],
+              isLoadingDSODM: false,
+            },
+            () => this.updateIdentityInfo()
+          );
+        }
+
+        //console.log(submittedDoc);
+      })
+      .catch((e) => {
+        this.setState({
+          isLoadingDSODM: false,
+        });
+
+        console.error("Something went wrong:\n", e);
+      })
+      .finally(() => client.disconnect());
+
+    //THIS BELOW IS THE NAME DOC ADD, SO PROCESSES DURING DOC SUBMISSION ***
+    let nameDoc = {
+      $ownerId: this.state.identity,
+      label: this.state.uniqueName,
+    };
+
+    this.setState({
+      EveryoneNames: [nameDoc, ...this.state.EveryoneNames],
+
+      ByYouNames: [nameDoc, ...this.state.ByYouNames],
+
+      FromTagsNames: [nameDoc, ...this.state.FromTagsNames],
+    });
+    //END OF NAME DOC ADD***
+  };
+
+  // ####  ####  ####  ####  ####  ####  ####  ####  ####  ####  ####  ####
 
   render() {
     this.state.mode === "primary"
@@ -2699,37 +2893,157 @@ class App extends React.Component {
         <Image fluid="true" id="dash-bkgd" src={DashBkgd} alt="Dash Logo" />
 
         <Container className="g-0">
-  <Row className="justify-content-md-center">
-    <Col md={9} lg={8} xl={7} xxl={6}>
-
-        {this.state.isLoggedIn ? (
-          <>
-            <TabsOnPage
-              whichTab={this.state.whichTab}
-              handleTab={this.handleTab}
-            />
-            <div className="bodytextnotop">
-              {/* <CreditsOnPage identityInfo={this.state.identityInfo} /> */}
-
-              {this.state.whichTab === "Search" ? (
+          <Row className="justify-content-md-center">
+            <Col md={9} lg={8} xl={7} xxl={6}>
+              {this.state.isLoggedIn ? (
                 <>
-                <LowCreditsOnPage 
-      identityInfo={this.state.identityInfo}
-      uniqueName={this.state.uniqueName}
-      showModal={this.showModal}
-       />
-                  {/* {this.state.viewYourMsgsToPosts ? <></> : <></>} */}
+                  <TabsOnPage
+                    whichTab={this.state.whichTab}
+                    handleTab={this.handleTab}
+                  />
+                  <div className="bodytextnotop">
+                    {/* <CreditsOnPage identityInfo={this.state.identityInfo} /> */}
 
-                  {/* <div className="d-grid gap-2">
+                    {this.state.whichTab === "Search" ? (
+                      <>
+                        <LowCreditsOnPage
+                          identityInfo={this.state.identityInfo}
+                          uniqueName={this.state.uniqueName}
+                          showModal={this.showModal}
+                        />
+                        {/* {this.state.viewYourMsgsToPosts ? <></> : <></>} */}
+
+                        {/* <div className="d-grid gap-2">
                     <Button variant="primary" size="lg">
                       Messaged Posts
                     </Button>
                   </div> */}
 
-                  {/* <div
+                        {/* <div
                     className="BottomBorder"
                     style={{ paddingTop: ".5rem" }}
                   ></div> */}
+
+                        <LocationForm
+                          whichCountryRegion={this.state.whichCountryRegion}
+                          mode={this.state.mode}
+                          cityInput={this.state.cityInput}
+                          validCity={this.state.validCity}
+                          tooLongCityNameError={this.state.tooLongCityNameError}
+                          countryRegionInput={this.state.countryRegionInput}
+                          validCountryRegion={this.state.validCountryRegion}
+                          tooLongCountryRegionNameError={
+                            this.state.tooLongCountryRegionNameError
+                          }
+                          isLoadingForm={this.state.isLoadingForm}
+                          triggerCountryButton={this.triggerCountryButton}
+                          triggerRegionButton={this.triggerRegionButton}
+                          handleOnChangeValidation={
+                            this.handleOnChangeValidation
+                          }
+                          constructQueryThenSearch={
+                            this.constructQueryThenSearch
+                          }
+                        />
+
+                        <ButtonsOnPage
+                          selectedCategoryButton={
+                            this.state.selectedCategoryButton
+                          }
+                          handleSelectedCategoryButton={
+                            this.handleSelectedCategoryButton
+                          }
+                          isLoadingSearch={this.state.isLoadingSearch}
+                          isLoadingInitial={this.state.isLoadingInitial}
+                          OffRentPosts={this.state.OffRentPosts}
+                          OffBizPosts={this.state.OffBizPosts}
+                          OffOtherPosts={this.state.OffOtherPosts}
+                          LookRentPosts={this.state.LookRentPosts}
+                          LookOtherPosts={this.state.LookOtherPosts}
+                        />
+
+                        <div
+                          className="BottomBorder"
+                          style={{ paddingTop: ".5rem" }}
+                        ></div>
+
+                        {this.state.isLoadingInitial ||
+                        this.state.isLoadingSearch ? (
+                          <>
+                            <p></p>
+                            <div id="spinner">
+                              <Spinner animation="border" role="status">
+                                <span className="visually-hidden">
+                                  Loading...
+                                </span>
+                              </Spinner>
+                            </div>
+                            <p></p>
+                          </>
+                        ) : (
+                          <></>
+                        )}
+
+                        <Posts
+                          selectedCategoryButton={
+                            this.state.selectedCategoryButton
+                          }
+                          mode={this.state.mode}
+                          handleSearchedPost={this.handleSearchedPost}
+                          OffRentPosts={this.state.OffRentPosts}
+                          OffRentNames={this.state.OffRentNames}
+                          OffBizPosts={this.state.OffBizPosts}
+                          OffBizNames={this.state.OffBizNames}
+                          OffOtherPosts={this.state.OffOtherPosts}
+                          OffOtherNames={this.state.OffOtherNames}
+                          LookRentPosts={this.state.LookRentPosts}
+                          LookRentNames={this.state.LookRentNames}
+                          LookOtherPosts={this.state.LookOtherPosts}
+                          LookOtherNames={this.state.LookOtherNames}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        {/* THIS IS WHERE THE "YOUR POSTS" WILL GO */}
+                        <CreditsOnPage
+                          identityInfo={this.state.identityInfo}
+                          uniqueName={this.state.uniqueName}
+                          showModal={this.showModal}
+                        />
+
+                        <YourPostsPage
+                          yourPostsToDisplay={this.state.yourPostsToDisplay}
+                          handleYourPost={this.handleYourPost}
+                          mode={this.state.mode}
+                          showModal={this.showModal}
+                          isLoadingYourPosts={this.state.isLoadingYourPosts}
+                        />
+                      </>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <div className="bodytextnotop">
+                  <div className="bodytext" style={{ textAlign: "center" }}>
+                    <h3>
+                      Find places to spend Dash or add a place to earn Money!
+                    </h3>
+                  </div>
+
+                  <div className="d-grid gap-2">
+                    <Button
+                      variant="primary"
+                      size="lg"
+                      onClick={() => this.showModal("ConnectWalletModal")}
+                    >
+                      <b>Connect Wallet</b>
+                    </Button>
+                  </div>
+
+                  <div
+                    className="BottomBorder"
+                    style={{ paddingTop: ".5rem" }}
+                  ></div>
 
                   <LocationForm
                     whichCountryRegion={this.state.whichCountryRegion}
@@ -2767,22 +3081,20 @@ class App extends React.Component {
                     className="BottomBorder"
                     style={{ paddingTop: ".5rem" }}
                   ></div>
-                  
-                  {this.state.isLoadingInitial || this.state.isLoadingSearch  ? (
-              <>
-                <p></p>
-                <div id="spinner">
-                  <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </Spinner>
-                </div>
-                <p></p>
-              </>
-            ) : (
-              <></>
-            )}
-                  
 
+                  {this.state.isLoadingInitial || this.state.isLoadingSearch ? (
+                    <>
+                      <p></p>
+                      <div id="spinner">
+                        <Spinner animation="border" role="status">
+                          <span className="visually-hidden">Loading...</span>
+                        </Spinner>
+                      </div>
+                      <p></p>
+                    </>
+                  ) : (
+                    <></>
+                  )}
                   <Posts
                     selectedCategoryButton={this.state.selectedCategoryButton}
                     mode={this.state.mode}
@@ -2798,116 +3110,14 @@ class App extends React.Component {
                     LookOtherPosts={this.state.LookOtherPosts}
                     LookOtherNames={this.state.LookOtherNames}
                   />
-                </>
-              ) : (
-                <>
-                
-                  {/* THIS IS WHERE THE "YOUR POSTS" WILL GO */}
-                  <CreditsOnPage
-            identityInfo={this.state.identityInfo}
-            uniqueName={this.state.uniqueName}
-            showModal={this.showModal}
-            />
-
-                  <YourPostsPage
-                    yourPostsToDisplay={this.state.yourPostsToDisplay}
-
-                    handleYourPost={this.handleYourPost}
-                    mode={this.state.mode}
-                    showModal={this.showModal}
-                    isLoadingYourPosts={this.state.isLoadingYourPosts}
-                  />
-                </>
-              )}
-            </div>
-          </>
-        ) : (
-          <div className="bodytextnotop">
-            <div className="bodytext" style={{ textAlign: "center" }}>
-              <h3>Find places to spend Dash or add a place to earn Money!</h3>
-            </div>
-
-            <div className="d-grid gap-2">
-              <Button
-                variant="primary"
-                size="lg"
-                onClick={() => this.showModal("ConnectWalletModal")}
-              >
-                <b>Connect Wallet</b>
-              </Button>
-            </div>
-
-            <div className="BottomBorder" style={{ paddingTop: ".5rem" }}></div>
-
-            <LocationForm
-              whichCountryRegion={this.state.whichCountryRegion}
-              mode={this.state.mode}
-              cityInput={this.state.cityInput}
-              validCity={this.state.validCity}
-              tooLongCityNameError={this.state.tooLongCityNameError}
-              countryRegionInput={this.state.countryRegionInput}
-              validCountryRegion={this.state.validCountryRegion}
-              tooLongCountryRegionNameError={
-                this.state.tooLongCountryRegionNameError
-              }
-              isLoadingForm={this.state.isLoadingForm}
-              triggerCountryButton={this.triggerCountryButton}
-              triggerRegionButton={this.triggerRegionButton}
-              handleOnChangeValidation={this.handleOnChangeValidation}
-              constructQueryThenSearch={this.constructQueryThenSearch}
-            />
-
-            <ButtonsOnPage
-              selectedCategoryButton={this.state.selectedCategoryButton}
-              handleSelectedCategoryButton={this.handleSelectedCategoryButton}
-              isLoadingSearch={this.state.isLoadingSearch}
-              isLoadingInitial={this.state.isLoadingInitial}
-              OffRentPosts={this.state.OffRentPosts}
-              OffBizPosts={this.state.OffBizPosts}
-              OffOtherPosts={this.state.OffOtherPosts}
-              LookRentPosts={this.state.LookRentPosts}
-              LookOtherPosts={this.state.LookOtherPosts}
-            />
-
-            <div className="BottomBorder" style={{ paddingTop: ".5rem" }}></div>
-            
-            {this.state.isLoadingInitial || this.state.isLoadingSearch  ? (
-              <>
-                <p></p>
-                <div id="spinner">
-                  <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </Spinner>
                 </div>
-                <p></p>
-              </>
-            ) : (
-              <></>
-            )}
-            <Posts
-              selectedCategoryButton={this.state.selectedCategoryButton}
-              mode={this.state.mode}
-              handleSearchedPost={this.handleSearchedPost}
-              OffRentPosts={this.state.OffRentPosts}
-              OffRentNames={this.state.OffRentNames}
-              OffBizPosts={this.state.OffBizPosts}
-              OffBizNames={this.state.OffBizNames}
-              OffOtherPosts={this.state.OffOtherPosts}
-              OffOtherNames={this.state.OffOtherNames}
-              LookRentPosts={this.state.LookRentPosts}
-              LookRentNames={this.state.LookRentNames}
-              LookOtherPosts={this.state.LookOtherPosts}
-              LookOtherNames={this.state.LookOtherNames}
-            />
-          </div>
-        )}
+              )}
 
-        <div className="bodytext">
-          <Footer />
-        </div>
-
-        </Col>
-        </Row>
+              <div className="bodytext">
+                <Footer />
+              </div>
+            </Col>
+          </Row>
         </Container>
 
         {/* #####    BELOW ARE THE MODALS    #####    */}
@@ -2983,14 +3193,19 @@ class App extends React.Component {
         {this.state.isModalShowing &&
         this.state.presentModal === "PostModal" ? (
           <PostModal
+            //MUST ALSO ADD THINGS NEEDED FOR THE DSO DM =>
+
+            //submitDSODM
+            // isLoadingDSODM
+            // an array of sent msgs
+            // no edit ability -> go to DSO for that... or do later
+
             selectedSearchedPost={this.state.selectedSearchedPost}
             selectedSearchedPostNameDoc={this.state.selectedSearchedPostNameDoc}
-
             whichNetwork={this.state.whichNetwork}
             DataContractDGR={this.state.DataContractDGR}
             DataContractDPNS={this.state.DataContractDPNS}
             DataContractDGP={this.state.DataContractDGP}
-
             isLoggedIn={this.state.isLoggedIn}
             isModalShowing={this.state.isModalShowing}
             hideModal={this.hideModal}

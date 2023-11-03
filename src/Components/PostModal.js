@@ -696,7 +696,15 @@ style={{ marginRight: ".2rem" }}>
 <p></p>
 {this.props.selectedSearchedPost.category === 'offbiz' ?
 <>
-<h5><b>Items for Purchase</b></h5>
+<h5><b>DashGetPaid Items</b></h5>
+
+{/* CURRENTLY NOT USING THE STORE DOC AT ALL => ? => 
+
+    SO I THINK i NEED TO HAVE THE STORE BE A BUTTON THAT SAYS VIEW STORE/MENU ITEMS AND DISPLAYS THE STORE INFO/STATUS/DESCRIPTION/PAYLATER etc..
+
+
+*/}
+
 {this.state.LoadingDGP ? (
           <>
             <p></p>
@@ -760,8 +768,28 @@ merchantItems={this.state.merchantItems}
 <>
 {this.props.isLoggedIn ?
 <>
+
 {/* <p>Put the DSO dm but no tag just handle behind the scene. I think maybe have a different component probably form from DSO DM modal YEAH </p> */}
+
 <p className='bodytext'>You will be able to send a <b>DashShoutOut DM</b> to the post owner, once completed!</p>
+
+{/* HOW WILL THE USER KNOW THAT THE MSG HAS BEEN SENT AND WHERE IS LOADING STATE DISPLAYED?
+IF I JUST KEEP IN MODAL IT COULD FAIL TO SEND BUT IF I SET IN APP THEN I HAVE TO TRACK AND DISPLAY WHERE MAYBE JUST ANOTHER THING tHAT I PASS TO THE MODAL
+
+ALRIGHT SO IT WILL KEEP TRACK FOR THE SESSION BUT LOSES IT AFTER <= YEAH  
+
+1) Add stuff from the DM modal/form here
+    CAN I JUST PUT IT IN ITS OWN COMPONENT? => 
+    FORGOT ABOUT THE TAG QUERY AND STUFF
+    It doesn't have to query -> i have the namedoc already!!! <=
+
+2) Add the stuff from App.js to App.js and setstate for message sent.
+
+3) TEST ->
+
+
+*/}
+
 </>
   :
 <>
