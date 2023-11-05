@@ -549,7 +549,7 @@ class App extends React.Component {
         this.setState({
           LocalForageKeys: keys,
         });
-        console.log("Local Forage keys:\n", keys);
+        // console.log("Local Forage keys:\n", keys);
       })
       .catch(function (err) {
         console.log(err);
@@ -1060,7 +1060,7 @@ class App extends React.Component {
   };
 
   getInitialOffRent = () => {
-    console.log("Calling getInitialOffRent");
+    // console.log("Calling getInitialOffRent");
 
     const clientOpts = {
       network: this.state.whichNetwork,
@@ -1085,7 +1085,7 @@ class App extends React.Component {
     getDocuments()
       .then((d) => {
         if (d.length === 0) {
-          console.log("There are no InitialOffRent");
+          //  console.log("There are no InitialOffRent");
 
           this.setState(
             {
@@ -1213,7 +1213,7 @@ class App extends React.Component {
           let docArray = [];
           //console.log("Getting ForyouByyouMsgs");
           for (const n of d) {
-            //console.log("Document:\n", n.toJSON());
+            console.log("Document:\n", n.toJSON());
             docArray = [...docArray, n.toJSON()];
           }
           this.getInitialOffBizNames(docArray);
@@ -1707,6 +1707,7 @@ class App extends React.Component {
     }
 
     let categoryIndex = whereArray.length;
+    console.log(`cateIndex: ${categoryIndex}`);
 
     whereArray.push(["category", "=="]);
 
@@ -1765,8 +1766,11 @@ class App extends React.Component {
   getOffRent = (queryObj, cateIndex) => {
     //let categoryIndex = queryObj.where.findIndex(arr => arr.length === 2) // Just pass it down and save the 5x findIndex function
 
-    queryObj.where[cateIndex].push("offrent");
-    //This passed in parameter won't affect the other functions right??
+    let queryOffRent = JSON.parse(JSON.stringify(queryObj));
+
+    queryOffRent.where[cateIndex].push("offrent");
+
+    //This passed in parameter won't affect the other functions right?? => NO shallow and deep object copying..... :(
 
     //console.log("Calling getOffRent");
 
@@ -1781,7 +1785,10 @@ class App extends React.Component {
     const client = new Dash.Client(clientOpts);
 
     const getDocuments = async () => {
-      return client.platform.documents.get("DMIOContract.dmiopost", queryObj);
+      return client.platform.documents.get(
+        "DMIOContract.dmiopost",
+        queryOffRent
+      );
     };
 
     getDocuments()
@@ -1791,6 +1798,7 @@ class App extends React.Component {
 
           this.setState(
             {
+              OffRentPosts: [],
               Search1: true,
             },
             () => this.checkSearchRace()
@@ -1876,6 +1884,10 @@ class App extends React.Component {
 
   getOffBiz = (queryObj, cateIndex) => {
     //console.log("Calling getOffBiz");
+    let queryOffBiz = JSON.parse(JSON.stringify(queryObj));
+    queryOffBiz.where[cateIndex].push("offbiz");
+
+    console.log(queryObj);
 
     const clientOpts = {
       network: this.state.whichNetwork,
@@ -1888,13 +1900,17 @@ class App extends React.Component {
     const client = new Dash.Client(clientOpts);
 
     const getDocuments = async () => {
-      return client.platform.documents.get("DMIOContract.dmiopost", {
-        where: [
-          ["category", "==", "offbiz"], // offrent, offbiz, offother, lookrent, lookother
-          ["$createdAt", "<=", Date.now()],
-        ],
-        orderBy: [["$createdAt", "desc"]],
-      });
+      return client.platform.documents.get(
+        "DMIOContract.dmiopost",
+        queryOffBiz
+        // {
+        //   where: [
+        //     ["category", "==", "offbiz"], // offrent, offbiz, offother, lookrent, lookother
+        //     ["$createdAt", "<=", Date.now()],
+        //   ],
+        //   orderBy: [["$createdAt", "desc"]],
+        // }
+      );
     };
 
     getDocuments()
@@ -1904,6 +1920,7 @@ class App extends React.Component {
 
           this.setState(
             {
+              OffBizPosts: [],
               Search2: true,
             },
             () => this.checkSearchRace()
@@ -1987,8 +2004,11 @@ class App extends React.Component {
     //END OF NAME RETRIEVAL
   };
 
-  getOffOther = () => {
+  getOffOther = (queryObj, cateIndex) => {
     //console.log("Calling getOffOther");
+    let queryOffOther = JSON.parse(JSON.stringify(queryObj));
+
+    queryOffOther.where[cateIndex].push("offother");
 
     const clientOpts = {
       network: this.state.whichNetwork,
@@ -2001,13 +2021,10 @@ class App extends React.Component {
     const client = new Dash.Client(clientOpts);
 
     const getDocuments = async () => {
-      return client.platform.documents.get("DMIOContract.dmiopost", {
-        where: [
-          ["category", "==", "offother"], // offrent, offbiz, offother, lookrent, lookother
-          ["$createdAt", "<=", Date.now()],
-        ],
-        orderBy: [["$createdAt", "desc"]],
-      });
+      return client.platform.documents.get(
+        "DMIOContract.dmiopost",
+        queryOffOther
+      );
     };
 
     getDocuments()
@@ -2018,6 +2035,7 @@ class App extends React.Component {
           this.setState(
             {
               Search3: true,
+              OffOtherPosts: [],
             },
             () => this.checkSearchRace()
           );
@@ -2100,8 +2118,11 @@ class App extends React.Component {
     //END OF NAME RETRIEVAL
   };
 
-  getLookRent = () => {
+  getLookRent = (queryObj, cateIndex) => {
     //console.log("Calling getLookRent");
+    let queryLookRent = JSON.parse(JSON.stringify(queryObj));
+
+    queryLookRent.where[cateIndex].push("lookrent");
 
     const clientOpts = {
       network: this.state.whichNetwork,
@@ -2114,13 +2135,10 @@ class App extends React.Component {
     const client = new Dash.Client(clientOpts);
 
     const getDocuments = async () => {
-      return client.platform.documents.get("DMIOContract.dmiopost", {
-        where: [
-          ["category", "==", "lookrent"], // offrent, offbiz, offother, lookrent, lookother
-          ["$createdAt", "<=", Date.now()],
-        ],
-        orderBy: [["$createdAt", "desc"]],
-      });
+      return client.platform.documents.get(
+        "DMIOContract.dmiopost",
+        queryLookRent
+      );
     };
 
     getDocuments()
@@ -2131,6 +2149,7 @@ class App extends React.Component {
           this.setState(
             {
               Search4: true,
+              LookRentPosts: [],
             },
             () => this.checkSearchRace()
           );
@@ -2213,8 +2232,11 @@ class App extends React.Component {
     //END OF NAME RETRIEVAL
   };
 
-  getLookOther = () => {
+  getLookOther = (queryObj, cateIndex) => {
     //console.log("Calling getLookOther");
+    let queryLookOther = JSON.parse(JSON.stringify(queryObj));
+
+    queryLookOther.where[cateIndex].push("lookother");
 
     const clientOpts = {
       network: this.state.whichNetwork,
@@ -2227,13 +2249,10 @@ class App extends React.Component {
     const client = new Dash.Client(clientOpts);
 
     const getDocuments = async () => {
-      return client.platform.documents.get("DMIOContract.dmiopost", {
-        where: [
-          ["category", "==", "lookother"], // offrent, offbiz, offother, lookrent, lookother
-          ["$createdAt", "<=", Date.now()],
-        ],
-        orderBy: [["$createdAt", "desc"]],
-      });
+      return client.platform.documents.get(
+        "DMIOContract.dmiopost",
+        queryLookOther
+      );
     };
 
     getDocuments()
@@ -2244,6 +2263,7 @@ class App extends React.Component {
           this.setState(
             {
               Search5: true,
+              LookOtherPosts: [],
             },
             () => this.checkSearchRace()
           );
