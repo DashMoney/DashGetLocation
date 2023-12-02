@@ -175,7 +175,7 @@ class App extends React.Component {
       skipSynchronizationBeforeHeight: 905000,
       mostRecentBlockHeight: 905000,
 
-      DataContractDMIO: "FZon7eefPyiJ2aS7WthpsGsMAcES3GHHWugFTH8p6D3S",
+      DataContractDMIO: "931HGHM5fMrRegVe3998hHcBAft1p8d9sWynfGnKxkw2",
       DataContractDGP: "785cZo4ok3DgyCJKsg4NPwuFmdDdcbp1hZKBW5b4SZ97",
       DataContractDGR: "5C8ZwmirWwqsMk7EguTf2p2RHa1cD9z3hrR29quE92ug",
       DataContractDSO: "3djpLuabDgYeXY7RhT6by5VuvrLtn8wnNQTF3J4wz4fn",
