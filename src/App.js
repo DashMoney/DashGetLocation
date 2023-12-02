@@ -175,10 +175,10 @@ class App extends React.Component {
       skipSynchronizationBeforeHeight: 905000,
       mostRecentBlockHeight: 905000,
 
-      DataContractDMIO: "6UZx2t8ZwqJuZ3fLRRXg5iBgUcewfXuZK1vMxcxaMf5b",
-      DataContractDGP: "G64qPciumaNrwCz9puWq8tnFbUr4QHNVFHD7qbBCAszd",
-      DataContractDGR: "GvMq3H76kUZotsdwPv9fdAuYGjk2XRojT5Ufj32WD4Xn",
-      DataContractDSO: "Cp5SJNvy3CdmCJpFFXM4haA1vS2nEJb7avKpEfVLgoyE",
+      DataContractDMIO: "FZon7eefPyiJ2aS7WthpsGsMAcES3GHHWugFTH8p6D3S",
+      DataContractDGP: "785cZo4ok3DgyCJKsg4NPwuFmdDdcbp1hZKBW5b4SZ97",
+      DataContractDGR: "5C8ZwmirWwqsMk7EguTf2p2RHa1cD9z3hrR29quE92ug",
+      DataContractDSO: "3djpLuabDgYeXY7RhT6by5VuvrLtn8wnNQTF3J4wz4fn",
       DataContractDPNS: "GWRSAVFMjXx8HpQFaNJMqBV7MBgMK4br5UESsB4S31Ec",
 
       expandedTopNav: false,
