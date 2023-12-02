@@ -4,7 +4,6 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import CloseButton from "react-bootstrap/CloseButton";
 
-
 //Post
 /**
  * city: {
@@ -77,7 +76,6 @@ class CreatePostModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-     
       selectedCategory: "offrent",
 
       cityInput: "",
@@ -184,19 +182,19 @@ class CreatePostModal extends React.Component {
 
     if (event.target.id === "formCityName") {
       event.preventDefault();
-    event.stopPropagation();
+      event.stopPropagation();
       this.cityValidate(event.target.value);
     }
 
     if (event.target.id === "formRegionName") {
       event.preventDefault();
-    event.stopPropagation();
+      event.stopPropagation();
       this.regionValidate(event.target.value);
     }
 
     if (event.target.id === "formCountryName") {
       event.preventDefault();
-    event.stopPropagation();
+      event.stopPropagation();
       this.countryValidate(event.target.value);
     }
 
@@ -205,27 +203,26 @@ class CreatePostModal extends React.Component {
     // }
 
     if (event.target.id === "custom-switch") {
-    event.stopPropagation();
+      event.stopPropagation();
       this.handleActive();
     }
 
     if (event.target.id === "DGP-switch") {
       event.stopPropagation();
-        this.handleDGP();
-      }
+      this.handleDGP();
+    }
 
     if (event.target.id === "formDescription") {
       event.preventDefault();
-    event.stopPropagation();
+      event.stopPropagation();
       this.descriptionValidate(event.target.value);
     }
 
     if (event.target.id === "formLink") {
       event.preventDefault();
-    event.stopPropagation();
+      event.stopPropagation();
       this.linkValidate(event.target.value);
     }
-
   };
 
   cityValidate = (city) => {
@@ -306,7 +303,6 @@ class CreatePostModal extends React.Component {
     }
   };
 
-
   //   priceValidate = (numberInput) => {
   //     //console.log(this.props.accountBalance);
 
@@ -358,7 +354,7 @@ class CreatePostModal extends React.Component {
   };
 
   linkValidate = (link) => {
-    let regex = /^.[\S\s]{0,350}$/;
+    let regex = /^[\S\s]{0,350}$/;
 
     let valid = regex.test(link);
 
@@ -434,14 +430,13 @@ class CreatePostModal extends React.Component {
           backdropClassName={modalBackdrop}
           contentClassName={modalBkg}
         >
-          
-          <Modal.Header style={{paddingBottom:'.2rem'}}>
-          
-            <Modal.Title>  
-               <h3><b>Create a Post</b></h3> 
+          <Modal.Header style={{ paddingBottom: ".2rem" }}>
+            <Modal.Title>
+              <h3>
+                <b>Create a Post</b>
+              </h3>
             </Modal.Title>
             {closeButtonColor}
-            
           </Modal.Header>
 
           {/* <div className="BottomBorder" style={{ paddingTop: ".5rem" }}></div> */}
@@ -452,23 +447,31 @@ class CreatePostModal extends React.Component {
             </h4>
 
             {this.state.selectedCategory === "offrent" ? (
-              <Button variant="primary" 
-              style={{ textDecoration: "underline", marginRight: ".5rem",marginBottom: ".2rem"  }}>
+              <Button
+                variant="primary"
+                style={{
+                  textDecoration: "underline",
+                  marginRight: ".5rem",
+                  marginBottom: ".2rem",
+                }}
+              >
                 <b>Place to Rent</b>
               </Button>
             ) : (
               <Button
                 variant="primary"
-                style={{ marginRight: ".5rem",marginBottom: ".2rem"  }}
+                style={{ marginRight: ".5rem", marginBottom: ".2rem" }}
                 onClick={() => this.handleCategoryButtons("offrent")}
               >
                 <b>Place to Rent</b>
               </Button>
             )}
 
-{this.state.selectedCategory === "offbiz" ? (
-              <Button variant="primary" 
-              style={{ textDecoration: "underline", marginRight: ".5rem"  }}>
+            {this.state.selectedCategory === "offbiz" ? (
+              <Button
+                variant="primary"
+                style={{ textDecoration: "underline", marginRight: ".5rem" }}
+              >
                 <b>Business/DGP</b>
               </Button>
             ) : (
@@ -481,9 +484,8 @@ class CreatePostModal extends React.Component {
               </Button>
             )}
 
-{this.state.selectedCategory === "offother" ? (
-              <Button variant="primary" 
-              style={{ textDecoration: "underline"}}>
+            {this.state.selectedCategory === "offother" ? (
+              <Button variant="primary" style={{ textDecoration: "underline" }}>
                 <b>Other</b>
               </Button>
             ) : (
@@ -494,15 +496,16 @@ class CreatePostModal extends React.Component {
                 <b>Other</b>
               </Button>
             )}
-            
 
             <h4 style={{ marginTop: ".2rem", marginBottom: ".1rem" }}>
               <b>You are Looking For:</b>
             </h4>
 
             {this.state.selectedCategory === "lookrent" ? (
-              <Button variant="primary" 
-              style={{ textDecoration: "underline", marginRight: ".5rem"  }}>
+              <Button
+                variant="primary"
+                style={{ textDecoration: "underline", marginRight: ".5rem" }}
+              >
                 <b>Place to Rent</b>
               </Button>
             ) : (
@@ -516,8 +519,10 @@ class CreatePostModal extends React.Component {
             )}
 
             {this.state.selectedCategory === "lookother" ? (
-              <Button variant="primary" 
-              style={{ textDecoration: "underline", marginRight: ".5rem"  }}>
+              <Button
+                variant="primary"
+                style={{ textDecoration: "underline", marginRight: ".5rem" }}
+              >
                 <b>Other</b>
               </Button>
             ) : (
@@ -529,7 +534,7 @@ class CreatePostModal extends React.Component {
                 <b>Other</b>
               </Button>
             )}
-<div className="BottomBorder" style={{ paddingTop: ".5rem" }}></div>
+            <div className="BottomBorder" style={{ paddingTop: ".5rem" }}></div>
             <Form
               noValidate
               onSubmit={this.handleSubmitClick}
@@ -537,62 +542,66 @@ class CreatePostModal extends React.Component {
             >
               {/* CITY FORM BELOW */}
               <Form.Group className="mb-3" controlId="formCityName">
-                  
-                  <h5 style={{marginTop:".2rem", marginBottom:".2rem"}}>City/Town</h5>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter city/town"
-                    required
-              isInvalid={this.state.tooLongCityError}
-              isValid={this.state.validCity}
-                  />
-                  <p></p>
-                  <Form.Control.Feedback type="invalid">
-              City/Town name is too long.
-            </Form.Control.Feedback>
-                  {/* <Form.Control.Feedback type="valid">
+                <h5 style={{ marginTop: ".2rem", marginBottom: ".2rem" }}>
+                  City/Town
+                </h5>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter city/town"
+                  required
+                  isInvalid={this.state.tooLongCityError}
+                  isValid={this.state.validCity}
+                />
+                <p></p>
+                <Form.Control.Feedback type="invalid">
+                  City/Town name is too long.
+                </Form.Control.Feedback>
+                {/* <Form.Control.Feedback type="valid">
               City/Town name is acceptable!
             </Form.Control.Feedback> */}
-            </Form.Group>
+              </Form.Group>
 
               {/* REGION FORM BELOW */}
               <Form.Group className="mb-3" controlId="formRegionName">
-              <h5 style={{marginTop:".2rem", marginBottom:".2rem"}}>Region</h5>
-              <Form.Control
-                    type="text"
-                    placeholder="Enter state/province"
-                    required
-              isInvalid={this.state.tooLongRegionError}
-              isValid={this.state.validRegion}
-                  />
-                  <p></p>
-                  <Form.Control.Feedback type="invalid">
-              State/Province name is too long.
-            </Form.Control.Feedback>
-                  {/* <Form.Control.Feedback type="valid">
+                <h5 style={{ marginTop: ".2rem", marginBottom: ".2rem" }}>
+                  Region
+                </h5>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter state/province"
+                  required
+                  isInvalid={this.state.tooLongRegionError}
+                  isValid={this.state.validRegion}
+                />
+                <p></p>
+                <Form.Control.Feedback type="invalid">
+                  State/Province name is too long.
+                </Form.Control.Feedback>
+                {/* <Form.Control.Feedback type="valid">
               State/Province name is acceptable!
             </Form.Control.Feedback> */}
-            </Form.Group>
+              </Form.Group>
 
-            {/* COUNTRY FORM BELOW */}
-            <Form.Group className="mb-3" controlId="formCountryName">
-              <h5 style={{marginTop:".2rem", marginBottom:".2rem"}}>Country</h5>
-              <Form.Control
-                    type="text"
-                    placeholder="Enter country"
-                    required
-              isInvalid={this.state.tooLongCountryError}
-              isValid={this.state.validCountry}
-                  />
-                  <p></p>
-                  <Form.Control.Feedback type="invalid">
-              Country name is too long.
-            </Form.Control.Feedback>
-                  {/* <Form.Control.Feedback type="valid">
+              {/* COUNTRY FORM BELOW */}
+              <Form.Group className="mb-3" controlId="formCountryName">
+                <h5 style={{ marginTop: ".2rem", marginBottom: ".2rem" }}>
+                  Country
+                </h5>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter country"
+                  required
+                  isInvalid={this.state.tooLongCountryError}
+                  isValid={this.state.validCountry}
+                />
+                <p></p>
+                <Form.Control.Feedback type="invalid">
+                  Country name is too long.
+                </Form.Control.Feedback>
+                {/* <Form.Control.Feedback type="valid">
               Country name is acceptable!
             </Form.Control.Feedback> */}
-            </Form.Group>
-
+              </Form.Group>
 
               {/*  PRICE FORM BELOW */}
 
@@ -618,7 +627,9 @@ class CreatePostModal extends React.Component {
 
               <Form.Group className="mb-3" controlId="formDescription">
                 <Form.Label>
-                <h5 style={{marginTop:".5rem", marginBottom:".2rem"}}>Description</h5>
+                  <h5 style={{ marginTop: ".5rem", marginBottom: ".2rem" }}>
+                    Description
+                  </h5>
                 </Form.Label>
 
                 <Form.Control
@@ -641,29 +652,28 @@ class CreatePostModal extends React.Component {
                 )}
               </Form.Group>
 
-               {/* LINKS FORM BELOW */}
+              {/* LINKS FORM BELOW */}
 
-               <Form.Group className="mb-3" controlId="formLink">
-                  
-                  <h5 style={{marginTop:".5rem", marginBottom:".2rem"}}>Link</h5>
+              <Form.Group className="mb-3" controlId="formLink">
+                <h5 style={{ marginTop: ".5rem", marginBottom: ".2rem" }}>
+                  Link
+                </h5>
 
-
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter a URL"
-                    required
-              isInvalid={this.state.tooLongLinkError}
-              isValid={this.state.validLink}
-                  />
-                  <p></p>
-                  <Form.Control.Feedback type="invalid">
-              Link is too long.
-            </Form.Control.Feedback>
-                  {/* <Form.Control.Feedback type="valid">
+                <Form.Control
+                  type="text"
+                  placeholder="Enter a URL"
+                  required
+                  isInvalid={this.state.tooLongLinkError}
+                  isValid={this.state.validLink}
+                />
+                <p></p>
+                <Form.Control.Feedback type="invalid">
+                  Link is too long.
+                </Form.Control.Feedback>
+                {/* <Form.Control.Feedback type="valid">
               Link is acceptable!
             </Form.Control.Feedback> */}
-            </Form.Group>
-
+              </Form.Group>
 
               <Form.Group className="mb-3" id="formGridCheckbox">
                 {/* <Form.Label>
@@ -677,49 +687,53 @@ class CreatePostModal extends React.Component {
                   }
                   //onChange={() => this.handleActive()}
                 />
-                
-                
+
                 <p>
                   <b>Active</b> means people can view the post when searching.
                 </p>
               </Form.Group>
 
-{this.state.selectedCategory === 'offbiz'?
-              <Form.Group className="mb-3" id="formDGPCheckbox">
-                {/* <Form.Label>
+              {this.state.selectedCategory === "offbiz" ? (
+                <Form.Group className="mb-3" id="formDGPCheckbox">
+                  {/* <Form.Label>
                   <b>Is Post Active?</b>
                 </Form.Label> */}
-                <Form.Check
-                  type="switch"
-                  id="DGP-switch"
-                  label={
-                    this.state.postDGP ? <b>DashGetPaid Store/Menu</b> : <b>No DashGetPaid Store/Menu</b>
-                  }
-                  //onChange={() => this.handleActive()}
-                />
-                
-                
-                <p>
-                  <b>DashGetPaid</b> means you have store/menu available for viewing.
-                </p>
-              </Form.Group>
-              :<></>}
+                  <Form.Check
+                    type="switch"
+                    id="DGP-switch"
+                    label={
+                      this.state.postDGP ? (
+                        <b>DashGetPaid Store/Menu</b>
+                      ) : (
+                        <b>No DashGetPaid Store/Menu</b>
+                      )
+                    }
+                    //onChange={() => this.handleActive()}
+                  />
 
-
-<div className="ButtonRightNoUnderline">
-              {this.state.validCity &&
-              this.state.validRegion &&
-              this.state.validCountry &&
-              this.state.validDescription &&
-              this.state.validLink ? (
-                <Button variant="primary" type="submit">
-                  Create Post
-                </Button>
+                  <p>
+                    <b>DashGetPaid</b> means you have store/menu available for
+                    viewing.
+                  </p>
+                </Form.Group>
               ) : (
-                <Button variant="primary" disabled>
-                  Create Post
-                </Button>
+                <></>
               )}
+
+              <div className="ButtonRightNoUnderline">
+                {this.state.validCity &&
+                this.state.validRegion &&
+                this.state.validCountry &&
+                this.state.validDescription &&
+                this.state.validLink ? (
+                  <Button variant="primary" type="submit">
+                    Create Post
+                  </Button>
+                ) : (
+                  <Button variant="primary" disabled>
+                    Create Post
+                  </Button>
+                )}
               </div>
             </Form>
           </Modal.Body>
